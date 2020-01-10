@@ -1,0 +1,21 @@
+
+
+*
+* Visual Studio Code Server
+*
+* Reminder: You may only use this software with Visual Studio family products,
+* as described in the license https://aka.ms/vscode-remote/license
+*
+
+
+IP Address: 10.25.7.137
+IP Address: 152.46.18.243
+Extension host agent listening on 44698
+
+
+[17:38:41] Extension host agent started.
+[17:38:42] [127.0.0.1][33925cd9][ExtensionHostConnection] New connection established.
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+[17:38:42] [127.0.0.1][5a658e04][ManagementConnection] New connection established.
+[17:38:42] [127.0.0.1][33925cd9][ExtensionHostConnection] <12663> Launched Extension Host Process.

@@ -178,3 +178,21 @@ make run
 cd csc501-lab0/compile/
 make
 make run
+cd csc501-lab0/compile/
+make
+make run
+cd ..
+ls
+cd ..
+ls
+mdkir TMP
+mkdir TMP
+ls
+cd csc501-lab0/
+ls
+cd compile/
+make clean
+make depend
+make 
+make
+make run

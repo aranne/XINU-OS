@@ -48,7 +48,8 @@ SYS =	blkcmp.c	blkequ.c	main.c		stacktrace.c	\
 	signal.c	signaln.c	sleep.c		sleep10.c	\
 	sleep100.c	sleep1000.c	sreset.c	suspend.c	\
 	unsleep.c	userret.c	wait.c		wakeup.c	\
-	write.c		xdone.c		pci.c		shutdown.c
+	write.c		xdone.c		pci.c		shutdown.c  \
+	printsegaddress.c
 
 TTY =	ttyalloc.c	ttycntl.c	ttygetc.c	ttyiin.c	\
 	ttyinit.c	ttynew.c	ttyopen.c	ttyputc.c	\
@@ -407,6 +408,8 @@ pci.o: ../sys/pci.c /usr/include/stdc-predef.h ../h/conf.h ../h/kernel.h \
 poolinit.o: ../sys/poolinit.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/mark.h ../h/bufpool.h \
  ../h/stdio.h
+printsegaddress.o: ../sys/printsegaddress.c /usr/include/stdc-predef.h \
+ ../h/kernel.h ../h/systypes.h ../h/conf.h ../h/mem.h ../h/lab0.h
 putc.o: ../sys/putc.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/io.h
 queue.o: ../sys/queue.c /usr/include/stdc-predef.h ../h/conf.h \

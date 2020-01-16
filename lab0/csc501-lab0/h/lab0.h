@@ -4,5 +4,8 @@
 // Task 1:
 long zfunction(long x);
 
+// Task 2:
+void printsegaddress(void);
+
 
 #endif

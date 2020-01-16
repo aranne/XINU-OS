@@ -85,3 +85,96 @@ make run
 ls
 cd csc501-lab0/
 ls
+cd csc501-lab0/
+ls
+cd compile/
+make 
+make depend
+make 
+make depend
+make 
+make depend
+make 
+cd ..
+ls
+cd sys/
+ls
+gcc -c zfunction.s -o zfunction.o
+make
+cd ..
+ls
+cd compile/
+make
+cd ..
+ls
+cd sys/
+ls
+rm zfunction.o
+ls
+make
+cd ..
+ls
+cd compile/
+ls
+make
+make depend
+make
+cd ..
+ls
+cd sys/
+ls
+mv zfunction.s complile/
+mv zfunction.s ../complile/
+cd ..
+ls
+cd compile/
+ls
+touch zfunction.s
+ls
+open zfunction.s 
+gcc -c zfunction.s -o zfunction.o
+make
+make depend
+make
+make clean
+make depend
+make 
+make run
+cd csc501-lab0/compile/
+make 
+make run
+cd csc501-lab0/
+cd compile/
+ls
+rm zfunction.s
+rm zfunction.o 
+make clean
+make depend
+make
+make clean
+make depend
+make 
+make clean
+make depend
+make 
+cd ..
+cd sys/
+ls
+rm zfunction.s 
+touch zfunction.S
+cd ..
+ls
+cd compile/
+make clean
+make depend
+make 
+make clean
+make depend
+make 
+make clean
+make depend
+make 
+make run
+cd csc501-lab0/compile/
+make
+make run

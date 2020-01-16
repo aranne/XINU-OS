@@ -10,12 +10,12 @@
 
 IP Address: 10.25.7.137
 IP Address: 152.46.18.243
-Extension host agent listening on 44698
+Extension host agent listening on 39535
 
 
-[17:38:41] Extension host agent started.
-[17:38:42] [127.0.0.1][33925cd9][ExtensionHostConnection] New connection established.
+[09:28:14] Extension host agent started.
+[09:28:14] [127.0.0.1][ebfd882a][ExtensionHostConnection] New connection established.
+[09:28:14] [127.0.0.1][48aa9a88][ManagementConnection] New connection established.
 bash: cannot set terminal process group (-1): Inappropriate ioctl for device
 bash: no job control in this shell
-[17:38:42] [127.0.0.1][5a658e04][ManagementConnection] New connection established.
-[17:38:42] [127.0.0.1][33925cd9][ExtensionHostConnection] <12663> Launched Extension Host Process.
+[09:28:14] [127.0.0.1][ebfd882a][ExtensionHostConnection] <6585> Launched Extension Host Process.

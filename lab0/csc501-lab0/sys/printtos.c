@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "lab0.h"
 
-unsigned long *sp, *fp;
+unsigned long *sp = 0, *fp = 0;
 
 void printtos() {
     asm("movl %esp, sp");

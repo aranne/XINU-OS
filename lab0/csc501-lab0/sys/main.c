@@ -6,6 +6,16 @@
 #include <stdio.h>
 #include "lab0.h"
 
+int prX;
+void halt();
+
+prch(c)
+char c;
+{
+	int i;
+	sleep(5);	
+}
+
 /*------------------------------------------------------------------------
  *  main  --  user main program
  *------------------------------------------------------------------------
@@ -20,7 +30,14 @@ int main()
 
 	printtos();
 
-	printprocstks(0);
+	printprocstks(-2);
+
+	syscallsummary_start();
+	resume(prX = create(prch,2000,20,"proc X",1,'A'));
+	
+	sleep(10);
+	syscallsummary_stop();
+	printsyscallsummary();
 
 	return 0;
 }

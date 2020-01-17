@@ -6,6 +6,8 @@
 #include <q.h>
 #include <sleep.h>
 #include <stdio.h>
+#include <proc.h>
+#include "lab0.h"
 
 /*------------------------------------------------------------------------
  * unsleep  --  remove  process from the sleep queue prematurely
@@ -13,6 +15,12 @@
  */
 SYSCALL	unsleep(int pid)
 {
+	unsigned long start = ctr1000;
+	if (tracking) {
+		pCall[currpid] = 1;
+		freq[currpid][25]++;
+	}
+
 	STATWORD ps;    
 	struct	pentry	*pptr;
 	struct	qent	*qptr;
@@ -24,6 +32,9 @@ SYSCALL	unsleep(int pid)
 	    ( (pptr = &proctab[pid])->pstate != PRSLEEP &&
 	     pptr->pstate != PRTRECV) ) {
 		restore(ps);
+		if (tracking) {
+			time[currpid][25] += ctr1000 - start;
+		}
 		return(SYSERR);
 	}
 	qptr = &q[pid];
@@ -36,5 +47,9 @@ SYSCALL	unsleep(int pid)
 	else
 		slnempty = FALSE;
         restore(ps);
+
+	if (tracking) {
+		time[currpid][25] += ctr1000 - start;
+	}
 	return(OK);
 }

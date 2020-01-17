@@ -1,0 +1,1241 @@
+Looking for git in: git
+Using git 1.8.3.1 from git
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+Open repository: /home/wfu4
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git show :lab0/csc501-lab0/sys/chprio.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/freemem.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/freemem.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git show :lab0/csc501-lab0/sys/main.c
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git check-ignore -v -z --stdin
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/main.c
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git show :lab0/csc501-lab0/h/lab0.h
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/chprio.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/freemem.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/getpid.c
+> git show :lab0/csc501-lab0/sys/getprio.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/gettime.c
+> git show :lab0/csc501-lab0/sys/kill.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/h/lab0.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/gettime.c
+> git show :lab0/csc501-lab0/sys/kill.c
+> git show :lab0/csc501-lab0/sys/receive.c
+> git show :lab0/csc501-lab0/sys/recvclr.c
+> git show :lab0/csc501-lab0/sys/recvtim.c
+> git show :lab0/csc501-lab0/sys/resume.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/scount.c
+> git show :lab0/csc501-lab0/sys/screate.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/sdelete.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/send.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/setdev.c
+> git show :lab0/csc501-lab0/sys/setnok.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/signal.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git check-ignore -v -z --stdin
+> git show :lab0/csc501-lab0/sys/signaln.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/sleep.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/sleep10.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/sleep.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/signaln.c
+> git show :lab0/csc501-lab0/sys/sleep.c
+> git show :lab0/csc501-lab0/sys/sleep100.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git check-ignore -v -z --stdin
+> git show :lab0/csc501-lab0/sys/sleep1000.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/sreset.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/stacktrace.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/suspend.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/unsleep.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/wait.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/wakeup.c
+> git show :lab0/csc501-lab0/sys/wait.c
+> git check-ignore -v -z --stdin
+> git show :lab0/csc501-lab0/sys/unsleep.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/unsleep.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/h/proc.h
+> git show :lab0/csc501-lab0/sys/printprocstks.c
+> git show :lab0/csc501-lab0/sys/main.c
+> git show :lab0/csc501-lab0/h/kernel.h
+> git show :lab0/csc501-lab0/h/proc.h
+> git show :lab0/csc501-lab0/h/lab0.h
+> git show :lab0/csc501-lab0/h/proc.h
+> git show :lab0/csc501-lab0/sys/printprocstks.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printprocstks.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/compile/Configuration
+> git check-ignore -v -z --stdin
+> git show :lab0/csc501-lab0/h/conf.h
+> git show :lab0/csc501-lab0/h/proc.h
+> git show :lab0/csc501-lab0/h/lab0.h
+> git show :lab0/csc501-lab0/h/conf.h
+> git show :lab0/csc501-lab0/h/proc.h
+> git show :lab0/csc501-lab0/sys/main.c
+> git show :lab0/csc501-lab0/h/lab0.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git show :lab0/csc501-lab0/sys/main.c
+> git show :lab0/csc501-lab0/sys/printprocstks.c
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/h/lab0.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git show :lab0/csc501-lab0/h/lab0.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/h/lab0.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/main.c
+> git show :lab0/csc501-lab0/h/proc.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/h/proc.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/main.c
+git.getSCMResource.uri file:///home/wfu4/lab0/csc501-lab0/sys/main.c
+repo root /home/wfu4
+> git show HEAD:lab0/csc501-lab0/sys/main.c
+> git show :lab0/csc501-lab0/sys/main.c
+> git show :lab0/csc501-lab0/sys/create.c
+> git show :lab0/csc501-lab0/sys/main.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/main.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/main.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/sys/printsyscallsummary.c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/h/proc.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/h/proc.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/h/proc.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show :lab0/csc501-lab0/h/proc.h
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+error: No upstream configured for branch 'master'
+error: No upstream configured for branch 'master'
+fatal: ambiguous argument 'master@{u}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git show HEAD:lab0/csc501-lab0/sys/printprocstks.c
+> git show HEAD:lab0/csc501-lab0/sys/printsyscallsummary.c

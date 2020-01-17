@@ -6,6 +6,8 @@
 #include <q.h>
 #include <sleep.h>
 #include <stdio.h>
+#include <proc.h>
+#include "lab0.h"
 
 /*------------------------------------------------------------------------
  * sleep10  --  delay the caller for a time specified in tenths of seconds
@@ -13,8 +15,17 @@
  */
 SYSCALL	sleep10(int n)
 {
+	unsigned long start = ctr1000;
+	if (tracking) {
+		pCall[currpid] = 1;
+		freq[currpid][19]++;
+	}
+
 	STATWORD ps;    
 	if (n < 0  || clkruns==0)
+	         if (tracking) {
+				time[currpid][19] += ctr1000 - start;
+			}
 	         return(SYSERR);
 	disable(ps);
 	if (n == 0) {		/* sleep10(0) -> end time slice */
@@ -27,5 +38,9 @@ SYSCALL	sleep10(int n)
 	}
 	resched();
         restore(ps);
+	
+	if (tracking) {
+		time[currpid][19] += ctr1000 - start;
+	}
 	return(OK);
 }

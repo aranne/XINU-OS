@@ -4,6 +4,8 @@
 #include <kernel.h>
 #include <mem.h>
 #include <stdio.h>
+#include <proc.h>
+#include "lab0.h"
 
 /*------------------------------------------------------------------------
  *  freemem  --  free a memory block, returning it to memlist
@@ -11,6 +13,12 @@
  */
 SYSCALL	freemem(struct mblock *block, unsigned size)
 {
+	unsigned long start = ctr1000;
+	if (tracking) {
+		pCall[currpid] = 1;
+		freq[currpid][0]++;
+	}
+
 	STATWORD ps;    
 	struct	mblock	*p, *q;
 	unsigned top;
@@ -27,6 +35,9 @@ SYSCALL	freemem(struct mblock *block, unsigned size)
 	if (((top=q->mlen+(unsigned)q)>(unsigned)block && q!= &memlist) ||
 	    (p!=NULL && (size+(unsigned)block) > (unsigned)p )) {
 		restore(ps);
+		if (tracking) {
+			time[currpid][0] += ctr1000 - start;
+		}
 		return(SYSERR);
 	}
 	if ( q!= &memlist && top == (unsigned)block )
@@ -42,5 +53,10 @@ SYSCALL	freemem(struct mblock *block, unsigned size)
 		q->mnext = p->mnext;
 	}
 	restore(ps);
+
+	if (tracking) {
+		time[currpid][0] += ctr1000 - start;
+	}
+
 	return(OK);
 }

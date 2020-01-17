@@ -4,6 +4,8 @@
 #include <kernel.h>
 #include <proc.h>
 #include <stdio.h>
+#include <proc.h>
+#include "lab0.h"
 
 /*------------------------------------------------------------------------
  *  recvclr  --  clear messages, returning waiting message (if any)
@@ -11,6 +13,12 @@
  */
 SYSCALL	recvclr()
 {
+	unsigned long start = ctr1000;
+	if (tracking) {
+		pCall[currpid] = 1;
+		freq[currpid][7]++;
+	}
+
 	STATWORD ps;    
 	WORD	msg;
 
@@ -21,5 +29,9 @@ SYSCALL	recvclr()
 	} else
 		msg = OK;
 	restore(ps);
+
+	if (tracking) {
+		time[currpid][7] += ctr1000 - start;
+	}
 	return(msg);
 }

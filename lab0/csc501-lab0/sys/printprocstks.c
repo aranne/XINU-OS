@@ -4,13 +4,14 @@
 #include <proc.h>
 #include "lab0.h"
 
-unsigned long *esp;
+unsigned long *esp = 0;
 
 void printprocstks(int priority) {
 
     struct pentry *proc;
     int i;
     // NPROC is max num of processes
+    kprintf("NPROC: %d\n", NPROC);
     for (i = 0; i < NPROC; i++) {
         proc = &proctab[i];
         if (proc->pstate != PRFREE && proc->pprio > priority) {

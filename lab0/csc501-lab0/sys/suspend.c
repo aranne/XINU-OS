@@ -5,6 +5,8 @@
 #include <proc.h>
 #include <q.h>
 #include <stdio.h>
+#include <proc.h>
+#include "lab0.h"
 
 /*------------------------------------------------------------------------
  *  suspend  --  suspend a process, placing it in hibernation
@@ -12,6 +14,12 @@
  */
 SYSCALL	suspend(int pid)
 {
+	unsigned long start = ctr1000;
+	if (tracking) {
+		pCall[currpid] = 1;
+		freq[currpid][24]++;
+	}
+
 	STATWORD ps;    
 	struct	pentry	*pptr;		/* pointer to proc. tab. entry	*/
 	int	prio;			/* priority returned		*/
@@ -20,6 +28,9 @@ SYSCALL	suspend(int pid)
 	if (isbadpid(pid) || pid==NULLPROC ||
 	 ((pptr= &proctab[pid])->pstate!=PRCURR && pptr->pstate!=PRREADY)) {
 		restore(ps);
+		if (tracking) {
+			time[currpid][24] += ctr1000 - start;
+		}
 		return(SYSERR);
 	}
 	if (pptr->pstate == PRREADY) {
@@ -32,5 +43,9 @@ SYSCALL	suspend(int pid)
 	}
 	prio = pptr->pprio;
 	restore(ps);
+
+	if (tracking) {
+		time[currpid][24] += ctr1000 - start;
+	}
 	return(prio);
 }

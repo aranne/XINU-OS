@@ -529,6 +529,14 @@ kill.o: ../TMP/kill.c /usr/include/stdc-predef.h ../h/conf.h \
 main.o: ../TMP/main.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/proc.h ../h/stdio.h \
  ../TMP/lab0.h
+printprocstks.o: ../TMP/printprocstks.c /usr/include/stdc-predef.h \
+ ../h/stdio.h ../h/conf.h ../h/kernel.h ../h/systypes.h ../h/mem.h \
+ ../h/proc.h ../TMP/lab0.h
+printsegaddress.o: ../TMP/printsegaddress.c /usr/include/stdc-predef.h \
+ ../h/stdio.h ../TMP/lab0.h
+printsyscallsummary.o: ../TMP/printsyscallsummary.c \
+ /usr/include/stdc-predef.h ../h/stdio.h ../h/conf.h ../h/kernel.h \
+ ../h/systypes.h ../h/mem.h ../h/proc.h ../TMP/lab0.h
 receive.o: ../TMP/receive.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/proc.h ../h/stdio.h \
  ../TMP/lab0.h

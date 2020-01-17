@@ -1,0 +1,136 @@
+1. Assuming the XINU text begins at address 0x0, draw a rough diagram of XINU’s memory layout 
+with addresses derived from your experimental measurements. 
+Include the information you uncovered from running your version of printsegaddress() and printprocstks().
+
+Some reference from book "Operating System Design: The Xinu Approach" by Douglas Comer (Author)
+
+                    |--------|  <-- prnull's base             0x00fffffc  
+                    | prnull |   
+                    |        |  <-- prnull's stack pointer    0x00ffff1c
+                    |--------|  <-- prnull's limit            0x00fff000
+                    |        |
+        Stack       |--------|  <-- main's base               0x00ffeff8
+                    |        |
+                    |  main  |  <-- main's stack pointer      0x00ffef80
+                    |        |
+                    |--------|  <-- main's limit              0x00ffdffc    
+                    |        |                               
+                    |        |
+                    |        |
+                    |        | 
+                    |        |
+                    |        |
+                    |        |
+                    |        |
+                    |--------|  
+                    |        |  
+                    | heap   | 
+                    |--------|  <-- end                       0x00029e74
+                    |        |
+                    | BSS    |  
+                    |--------|  <-- edata                     0x000216de
+                    |        |
+                    | data   |
+                    |--------|  <-- etext                     0x0001c7a5
+                    |        | 
+                    | text   |
+                    |--------|  <-- lowest address            0x00000000
+
+######################################################################################################################
+
+2. What is the difference in stack top address before and after calling printtos() ? 
+Draw a diagram to illustrate what are the contents of the items pushed into the stack between these two time points.
+
+Some reference from book "Operating System Design: The Xinu Approach" by Douglas Comer (Author)
+
+When a parent function calls a child function, the parent function will push arguments into stack, then 
+push a return address into stack. Now we go into the child function, and child function will push 
+old EBP value into stack.
+
+In this case, 
+before we call printtos(), since printtos() doesn't have any arguments,
+so main() function will only push return address into stack.
+After we go into printtos(), printtos() will push old EBP value into stack.
+
+|         |
+|---------|  <-- top of stack before we go into printtos()      0x00ffefb0
+| Return  |
+| Address |
+|         |
+|---------|  <-- Return address                                 0x00ffefac
+|  Old    |
+|  EBP    |
+|         |
+|---------|  <-- top of stack after we go into printtos()       0x00ffefa8
+|         |
+
+######################################################################################################################
+
+3. Which byte order is adopted in the host machine that we are using ? How did you find out ?
+
+We are using LITTLE_ENDIAN.
+
+In config.h file, we define order of byte:  
+#define	BYTE_ORDER	LITTLE_ENDIAN
+
+Also, I write a small test file to test this answer.
+
+in test.c
+#include <stdio.h>
+
+void test() {
+    int i = 1;
+    char *p = (char *) &i;
+    if (*p == 1) {
+        kprintf("LITTLE_ENDIAN");
+    } else {
+        kprintf("BIG_ENDIAN");
+    }
+}
+And when I run this test, it prints LITTLE_ENDIAN.
+
+######################################################################################################################
+
+4. Briefly describe the mov, push, pusha, pop, and popa instructions in the x86.
+
+Some reference from "Intel® 64 and IA-32 Architectures Software Developer’s Manual Volume 1 P186".
+
+mov operand1, operand2         Move value from operand1 register/address to operand2 register/address.
+push                   Push a value into stack.
+pusha                  Push values of all registers in order: eax, ecx, edx, ebx, esp, ebp, esi, edi.
+pop                    Restore the value on the top of stack into a register.
+popa                   Pop all register values saved with pusha instruction (except esp value) 
+                       from stack to their respective registers.
+
+######################################################################################################################
+
+5. In a stack frame, local variables are stored below the top of the stack. 
+In task 3, does your result show all the local variables declared in your printtos function? 
+If not, can you explain that? (hint: try to disable the compiler optimization by specifying -O in your Makefile)
+
+No, my result doesn't show all the local vairables.
+
+With no optimization -O0
+
+void printtos()
+Before[0x00ffefb0]: 0x0001cfbe
+After [0x00ffefa8]: 0x00ffefec
+        element[0x00ffef80]: 0x0001d76a
+        element[0x00ffef84]: 0x00ffef80
+        element[0x00ffef88]: 0x00ffef80
+        element[0x00ffef8c]: 0x000216e2
+
+With highest optimization -O3
+
+void printtos()
+Before[0x00ffeff4]: 0x00000000
+After [0x00ffefec]: 0x00ffeff8
+        element[0x00ffefa0]: 0x0001adbe
+        element[0x00ffefa4]: 0x00ffefa0
+        element[0x00ffefa8]: 0x00ffefa0
+        element[0x00ffefac]: 0x00000000   
+
+We cannot see all the local vairables in the stack, because compiler will move some variables to somewhere else.
+As we can see, with highest optimization, the address of top of stack is much larger than the address with no optimization.
+This means compiler moves some vairables out of stack.
+So we cannot see all the local vairables in the stack.                                          

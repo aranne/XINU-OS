@@ -4,9 +4,10 @@
 #include <proc.h>
 #include "lab0.h"
 
-unsigned long *fp = 0;
+unsigned long *sp = 0, *fp = 0;
 
 void printtos() {
+    asm("movl %esp, sp");
     asm("movl %ebp, fp");
 
     kprintf("void printtos()\n");
@@ -21,9 +22,9 @@ void printtos() {
     unsigned long *base = (unsigned long*) proc->pbase;
 
     int k = 0;
-    while (k < 4 && fp < base) {
-        kprintf("\telement[0x%08x]: 0x%08x\n", fp, *fp);
-        ++fp;
+    while (k < 4 && sp < base) {     // if stack pointer is below process base pointer.
+        kprintf("\telement[0x%08x]: 0x%08x\n", sp, *sp);
+        ++sp;
         ++k;
     }
     kprintf("\n");

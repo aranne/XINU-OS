@@ -38,17 +38,17 @@
 
 #define	isbadpid(x)	(x<=0 || x>=NPROC)
 
-/* process table entry */
+/* process table entry that contains process's saved state infomation */
 
 struct	pentry	{
 	char	pstate;			/* process state: PRCURR, etc.	*/
 	int	pprio;			/* process priority		*/
-	int	pesp;			/* saved stack pointer		*/
+	int	pesp;			/* saved stack pointer when process isn't executing */
 	STATWORD pirmask;		/* saved interrupt mask		*/
 	int	psem;			/* semaphore if process waiting	*/
 	WORD	pmsg;			/* message sent to this process	*/
 	char	phasmsg;		/* nonzero iff pmsg is valid	*/
-	WORD	pbase;			/* base of run time stack	*/
+	WORD	pbase;			/* address of the highest(base) memory location of run time stack */
 	int	pstklen;		/* stack length			*/
 	WORD	plimit;			/* lowest extent of stack	*/
 	char	pname[PNMLEN];		/* process name			*/
@@ -63,7 +63,7 @@ struct	pentry	{
 };
 
 
-extern	struct	pentry proctab[];
+extern	struct	pentry proctab[];  /* holds all processes   */
 extern	int	numproc;		/* currently active processes	*/
 extern	int	nextproc;		/* search point for free slot	*/
 extern	int	currpid;		/* currently executing process	*/

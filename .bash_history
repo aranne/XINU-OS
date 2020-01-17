@@ -196,3 +196,168 @@ make depend
 make 
 make
 make run
+ls
+cd csc501-lab0/
+cd compile/
+make
+make clean
+make depend
+make
+make clean
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make 
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+git status
+git add .
+git status
+git push origin master
+git status
+ls
+cd csc501-lab0/compile/
+make
+make run
+make
+make run
+make clean
+make depend
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+ma
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+cd csc501-lab0/compile/
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+cd csc501-lab0/compile/
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run

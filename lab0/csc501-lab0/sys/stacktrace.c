@@ -38,7 +38,7 @@ SYSCALL stacktrace(int pid)
 		if (*sp == MAGIC)
 			break;
 		kprintf("\nFP   (%08X) %08X (%d)\n", sp, *sp, *sp);
-		fp = (unsigned long *) *sp++;
+		fp = (unsigned long *) *sp++;      // Find the previous base address.
 		if (fp <= sp) {
 			kprintf("bad stack, fp (%08X) <= sp (%08X)\n", fp, sp);
 			return SYSERR;

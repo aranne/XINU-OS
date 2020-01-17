@@ -14,7 +14,11 @@ int main()
 {
 	kprintf("\n\nHello World, Xinu lives\n\n");
 	long x = zfunction(0xaabbccdd);
-	kprintf("0x%0x\n", x);
+	kprintf("0x%0x\n\n", x);
+
 	printsegaddress();
+
+	printtos();
+
 	return 0;
 }

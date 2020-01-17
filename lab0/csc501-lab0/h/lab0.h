@@ -7,5 +7,7 @@ long zfunction(long x);
 // Task 2:
 void printsegaddress(void);
 
+// Task 3:
+void printtos(void);
 
 #endif

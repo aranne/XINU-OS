@@ -10,12 +10,55 @@
 
 IP Address: 10.25.7.137
 IP Address: 152.46.18.243
-Extension host agent listening on 39696
+Extension host agent listening on 35273
 
 
-[14:00:19] Extension host agent started.
-[14:00:19] [127.0.0.1][54ded947][ExtensionHostConnection] New connection established.
+[17:58:37] Extension host agent started.
+[17:58:37] [127.0.0.1][4090cfe0][ExtensionHostConnection] New connection established.
 bash: cannot set terminal process group (-1): Inappropriate ioctl for device
 bash: no job control in this shell
-[14:00:19] [127.0.0.1][7380d0e9][ManagementConnection] New connection established.
-[14:00:19] [127.0.0.1][54ded947][ExtensionHostConnection] <67909> Launched Extension Host Process.
+[17:58:37] [127.0.0.1][d2fa0502][ManagementConnection] New connection established.
+[17:58:37] [127.0.0.1][4090cfe0][ExtensionHostConnection] <112165> Launched Extension Host Process.
+Error: write EPIPE
+    at WriteWrap.onWriteComplete [as oncomplete] (internal/stream_base_commons.js:83:16) {
+  errno: 'EPIPE',
+  code: 'EPIPE',
+  syscall: 'write'
+}
+Error: Unexpected SIGPIPE
+    at process.<anonymous> (/home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/out/bootstrap.js:5:80)
+    at process.emit (events.js:200:13)
+Error: Unexpected SIGPIPE
+    at process.<anonymous> (/home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/out/bootstrap.js:5:80)
+    at process.emit (events.js:200:13)
+[22:01:38] [127.0.0.1][d2fa0502][ManagementConnection] The client has disconnected, will wait for reconnection 3h before disposing...
+[22:02:33] [127.0.0.1][d2fa0502][ManagementConnection] Another client has connected, will shorten the wait for reconnection 5m before disposing...
+[22:02:33] [127.0.0.1][bfe73622][ManagementConnection] New connection established.
+[22:02:33] [127.0.0.1][4566ce29][ExtensionHostConnection] New connection established.
+[22:02:33] [127.0.0.1][4566ce29][ExtensionHostConnection] <27939> Launched Extension Host Process.
+[22:07:33] [127.0.0.1][d2fa0502][ManagementConnection] The reconnection short grace time of 5m has expired, so the connection will be disposed.
+[22:07:34] [127.0.0.1][4090cfe0][ExtensionHostConnection] <112165> Extension Host Process exited with code: 0, signal: null.
+Error: write EPIPE
+    at WriteWrap.onWriteComplete [as oncomplete] (internal/stream_base_commons.js:83:16) {
+  errno: 'EPIPE',
+  code: 'EPIPE',
+  syscall: 'write'
+}
+Error: Unexpected SIGPIPE
+    at process.<anonymous> (/home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/out/bootstrap.js:5:80)
+    at process.emit (events.js:200:13)
+Error: Unexpected SIGPIPE
+    at process.<anonymous> (/home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/out/bootstrap.js:5:80)
+    at process.emit (events.js:200:13)
+[22:32:30] [127.0.0.1][bfe73622][ManagementConnection] The client has disconnected, will wait for reconnection 3h before disposing...
+[22:33:27] [127.0.0.1][bfe73622][ManagementConnection] Another client has connected, will shorten the wait for reconnection 5m before disposing...
+[22:33:27] [127.0.0.1][700f45cc][ManagementConnection] New connection established.
+[22:33:27] [127.0.0.1][4e0f248e][ExtensionHostConnection] New connection established.
+[22:33:27] [127.0.0.1][4e0f248e][ExtensionHostConnection] <34028> Launched Extension Host Process.
+[22:33:34] [127.0.0.1][700f45cc][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed.
+[22:33:35] [127.0.0.1][4e0f248e][ExtensionHostConnection] <34028> Extension Host Process exited with code: 0, signal: null.
+[22:33:45] [127.0.0.1][d3e5db73][ManagementConnection] New connection established.
+[22:33:45] [127.0.0.1][c396e932][ExtensionHostConnection] New connection established.
+[22:33:45] [127.0.0.1][c396e932][ExtensionHostConnection] <34182> Launched Extension Host Process.
+[22:38:27] [127.0.0.1][bfe73622][ManagementConnection] The reconnection short grace time of 5m has expired, so the connection will be disposed.
+[22:38:28] [127.0.0.1][4566ce29][ExtensionHostConnection] <27939> Extension Host Process exited with code: 0, signal: null.

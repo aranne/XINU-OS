@@ -20,5 +20,7 @@ int main()
 
 	printtos();
 
+	printprocstks(0);
+
 	return 0;
 }

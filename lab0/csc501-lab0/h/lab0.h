@@ -10,4 +10,7 @@ void printsegaddress(void);
 // Task 3:
 void printtos(void);
 
+// Task 4:
+void printprocstks(int priority);
+
 #endif

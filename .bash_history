@@ -361,3 +361,20 @@ make
 make run
 make
 make run
+cd csc501-lab0/compile/
+make 
+make run
+make 
+make run
+make 
+make run
+make 
+make run
+make 
+make run
+make 
+make run
+make 
+make run
+make 
+make run

@@ -418,8 +418,10 @@ printprocstks.o: ../sys/printprocstks.c /usr/include/stdc-predef.h \
 printsegaddress.o: ../sys/printsegaddress.c /usr/include/stdc-predef.h \
  ../h/stdio.h ../h/lab0.h
 printsyscallsummary.o: ../sys/printsyscallsummary.c \
- /usr/include/stdc-predef.h ../h/stdio.h ../h/lab0.h
+ /usr/include/stdc-predef.h ../h/stdio.h ../h/conf.h ../h/kernel.h \
+ ../h/systypes.h ../h/mem.h ../h/proc.h ../h/lab0.h
 printtos.o: ../sys/printtos.c /usr/include/stdc-predef.h ../h/stdio.h \
+ ../h/proc.h ../h/conf.h ../h/kernel.h ../h/systypes.h ../h/mem.h \
  ../h/lab0.h
 putc.o: ../sys/putc.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/io.h
@@ -507,13 +509,8 @@ write.o: ../sys/write.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/io.h
 xdone.o: ../sys/xdone.c /usr/include/stdc-predef.h ../h/kernel.h \
  ../h/systypes.h ../h/conf.h ../h/mem.h ../h/stdio.h
-printprocstks.o: ../TMP/printprocstks.c /usr/include/stdc-predef.h \
- ../h/stdio.h ../h/conf.h ../h/kernel.h ../h/systypes.h ../h/mem.h \
- ../h/proc.h ../h/lab0.h
 printsegaddress.o: ../TMP/printsegaddress.c /usr/include/stdc-predef.h \
  ../h/stdio.h ../h/lab0.h
-printtos.o: ../TMP/printtos.c /usr/include/stdc-predef.h ../h/stdio.h \
- ../h/lab0.h
 ttyalloc.o: ../tty/ttyalloc.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/tty.h ../h/stdio.h
 ttycntl.o: ../tty/ttycntl.c /usr/include/stdc-predef.h ../h/conf.h \

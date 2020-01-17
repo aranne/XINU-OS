@@ -450,3 +450,40 @@ make
 make clean
 make depend
 make
+cd csc501-lab0/compile/
+make
+make run
+make
+make run
+make clean
+make depend
+make 
+make run
+make
+make run
+make 
+make run
+make
+make 
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make 
+make run
+make 
+make run
+make 
+make run
+make 
+make run
+make
+make run
+make
+make run
+make
+make run

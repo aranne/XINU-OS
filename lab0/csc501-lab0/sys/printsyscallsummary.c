@@ -15,6 +15,7 @@ char syscallName[NSYSCALL][NAMELEN] = {"sys_freemem", "sys_chprio", "sys_getpid"
 
 void printsyscallsummary() {
     
+    kprintf("void printsyscallsummary()\n");
     int i, j;
     for (i = 0; i < NPROC; ++i) {
         if (!pCall[i]) continue;

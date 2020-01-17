@@ -8,26 +8,26 @@ unsigned long *esp = 0;
 
 void printprocstks(int priority) {
 
+    kprintf("void printprocstks(int priority)\n");
+
     struct pentry *proc;
     int i;
-    // NPROC is max num of processes
-    kprintf("NPROC: %d\n", NPROC);
     for (i = 0; i < NPROC; i++) {
         proc = &proctab[i];
-        if (proc->pstate != PRFREE && proc->pprio > priority) {
-            if (proc->pstate == PRCURR) {
+        if (proc->pstate != PRFREE && proc->pprio > priority) {  // if process on this slot exists
+            if (proc->pstate == PRCURR) {  // if process is currently running
                 asm("movl %esp, esp");
-            } else {
+            } else {                       // if process is not running
                 esp = (unsigned long*) proc->pesp;
             }
-            kprintf("Stack Base: 0x%08x\n", proc->pbase);
-            kprintf("Stack Size: 0x%08x\n", proc->pstklen);
-            kprintf("Actual Stack Size: 0x%08x\n", proc->pbase - (WORD) esp);
-            kprintf("Stack Limit: 0x%08x\n", proc->plimit);
-            kprintf("Stack Pointer: 0x%08x\n", esp);
-            kprintf("Process Name: %s\n", proc->pname);
-            kprintf("Process ID: %d\n", i);
-            kprintf("Process Priority: %d\n\n", proc->pprio);
+            kprintf("Process [%s]\n", proc->pname);
+            kprintf("\tpid: %d\n", i);
+            kprintf("\tpriority: %d\n", proc->pprio);
+            kprintf("\tbase: 0x%08x\n", proc->pbase);
+            kprintf("\tlimit: 0x%08x\n", proc->plimit);
+            kprintf("\tlen: %d\n", proc->pstklen);
+            kprintf("\tpointer: 0x %08x\n", esp);
         }
     }
+    kprintf("\n");
 }

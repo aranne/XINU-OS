@@ -487,3 +487,87 @@ make
 make run
 make
 make run
+cd csc501-lab0/compile/
+make
+make run
+make
+make run
+make
+make run
+make clean
+make depend
+make
+make run
+make
+make clean
+make depend
+make
+make run
+make
+make clean
+make depend
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make run
+make
+make clean
+make depend
+make
+make run
+git push origin master
+make run
+make 
+make run
+make 
+make run
+make 
+make run
+make clean
+make depend
+make
+make run
+make 
+make run
+make
+make run
+make
+make clean
+make depend
+make run
+make
+make run
+make clean
+make depend
+make
+make run
+make clean
+make depend
+make
+make run
+make
+make run
+make clean
+make depend
+make 
+make clean
+make depend
+make
+make run
+make clean
+make depend
+make 
+make run
+git push origin master

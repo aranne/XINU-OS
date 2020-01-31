@@ -1,0 +1,16 @@
+[2020-01-30 22:02:54.396] [exthost] [info] extension host started
+[2020-01-30 22:02:54.542] [exthost] [info] ExtensionService#_doActivateExtension vscode.markdown-language-features {"startup":false,"extensionId":{"value":"vscode.markdown-language-features","_lower":"vscode.markdown-language-features"},"activationEvent":"onCommand:markdown.showPreview"}
+[2020-01-30 22:02:54.543] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/markdown-language-features/dist/extension
+[2020-01-30 22:02:54.591] [exthost] [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch {"startup":false,"extensionId":{"value":"vscode.debug-auto-launch","_lower":"vscode.debug-auto-launch"},"activationEvent":"*"}
+[2020-01-30 22:02:54.592] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/debug-auto-launch/dist/extension
+[2020-01-30 22:02:54.596] [exthost] [info] ExtensionService#_doActivateExtension vscode.emmet {"startup":false,"extensionId":{"value":"vscode.emmet","_lower":"vscode.emmet"},"activationEvent":"*"}
+[2020-01-30 22:02:54.597] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/emmet/dist/extension
+[2020-01-30 22:02:54.637] [exthost] [info] ExtensionService#_doActivateExtension vscode.git {"startup":false,"extensionId":{"value":"vscode.git","_lower":"vscode.git"},"activationEvent":"*"}
+[2020-01-30 22:02:54.637] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/git/dist/main
+[2020-01-30 22:02:54.706] [exthost] [info] ExtensionService#_doActivateExtension vscode.merge-conflict {"startup":false,"extensionId":{"value":"vscode.merge-conflict","_lower":"vscode.merge-conflict"},"activationEvent":"*"}
+[2020-01-30 22:02:54.707] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/merge-conflict/dist/extension
+[2020-01-30 22:02:54.712] [exthost] [info] ExtensionService#_doActivateExtension vscode.search-result {"startup":false,"extensionId":{"value":"vscode.search-result","_lower":"vscode.search-result"},"activationEvent":"*"}
+[2020-01-30 22:02:54.712] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/search-result/dist/extension.js
+[2020-01-30 22:02:54.725] [exthost] [info] eager extensions activated
+[2020-01-30 22:02:55.032] [exthost] [info] ExtensionService#_doActivateExtension vscode.extension-editing {"startup":false,"extensionId":{"value":"vscode.extension-editing","_lower":"vscode.extension-editing"},"activationEvent":"onLanguage:markdown"}
+[2020-01-30 22:02:55.033] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/wfu4/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/extension-editing/dist/extension

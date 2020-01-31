@@ -571,3 +571,33 @@ make depend
 make 
 make run
 git push origin master
+make
+cd csc501-lab0/compile/
+make
+make run
+maake cleaan
+make clean
+make 
+make run
+make
+make clean
+push origin master
+git push origin master
+git status
+ls
+cd ..
+git status
+cd csc501-lab0/compile/
+make
+make run
+make clean
+git push origin master
+make
+cd lab1/
+zip csc501-lab1.zip 
+unzip csc501-lab1.zip 
+sudo apt-get install zsh curl git
+apt-get install zsh curl git
+sys
+sudo yum install zsh curl git
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"

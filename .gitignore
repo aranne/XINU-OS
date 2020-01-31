@@ -1,3 +1,4 @@
 .vscode-server/
 .*
 !.gitignore
+.zsh_histroy

@@ -22,11 +22,12 @@ SYSCALL	sleep(int n)
 	}
 
 	STATWORD ps;    
-	if (n<0 || clkruns==0)
+	if (n<0 || clkruns==0){
 	    if (tracking) {
 			time[currpid][18] += ctr1000 - start;
 		}
 		return(SYSERR);
+	}
 	if (n == 0) {
 	        disable(ps);
 		resched();
@@ -44,7 +45,8 @@ SYSCALL	sleep(int n)
 		sleep10(10*n);
 
 	if (tracking) {
-		time[currpid][18] += ctr1000 - start;
+		unsigned long end = ctr1000;
+		time[currpid][18] += end - start;
 	}
 	return(OK);
 }

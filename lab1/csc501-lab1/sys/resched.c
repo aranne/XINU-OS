@@ -4,9 +4,13 @@
 #include <kernel.h>
 #include <proc.h>
 #include <q.h>
+#include "lab1.h"
 
 unsigned long currSP;	/* REAL sp of current process */
 extern int ctxsw(int, int, int, int);
+int default_sched(void);
+int random_sched(void);
+int linux_sched(void);
 /*-----------------------------------------------------------------------
  * resched  --  reschedule processor to highest priority ready process
  *
@@ -15,7 +19,27 @@ extern int ctxsw(int, int, int, int);
  *			current process if other than PRREADY.
  *------------------------------------------------------------------------
  */
-int resched()
+int resched() {
+	if (SCHEDCLASS == DEFAULTSCHED) {
+		return default_sched();
+	} else if (SCHEDCLASS == RANDOMSCHED) {
+		return random_sched();
+	} else if (SCHEDCLASS == LINUXSCHED) {
+		return linux_sched();
+	} else {
+		return SYSERR;
+	}
+}
+
+int random_sched() {
+	return default_sched();
+}
+
+int linux_sched() {
+	return default_sched();
+}
+
+int default_sched()
 {
 	register struct	pentry	*optr;	/* pointer to old process entry */
 	register struct	pentry	*nptr;	/* pointer to new process entry */

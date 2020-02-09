@@ -23,7 +23,7 @@ SYSCALL chprio(int pid, int newprio)
 		return(SYSERR);
 	}
 	pptr->pprio = newprio;
-	if (SCHEDCLASS == RANDOMSCHED) {
+	if (SCHEDCLASS == RANDOMSCHED && proctab[pid].pstate == PRREADY) {
 		dequeue(pid);
 	    insert(pid, rdyhead, pptr->pprio);
 	}

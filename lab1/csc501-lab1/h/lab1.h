@@ -6,15 +6,15 @@
 #define DEFAULTSCHED 3
 
 extern int SCHEDCLASS;
-extern int nrdyproc;
-extern int sumpprio;
 
 /* set schedule mode */
 void setschedclass(int sched_class);
 int getschedclass();
 
-/* get number of processes and sum of their priority in ready queue*/
-void info_rdyproc();
+/* get number of processes */
+int numrdy();
+/* and get sum of their priority in ready queue */
+int sumrdyprio();
 
 /* get random number in range 0 ~ sumpprio */
 int get_rand(int range);

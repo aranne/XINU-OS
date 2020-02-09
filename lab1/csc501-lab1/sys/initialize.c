@@ -114,8 +114,15 @@ int nulluser()				/* babysit CPU when no one home */
 	/* create a process to execute the user's main program */
 	resume(create((int *)main,INITSTK,INITPRIO,INITNAME,INITARGS));
 
-	while (TRUE)
+    int k;
+	while (TRUE) {
+		// for (k = 0; k < 10000000; k++)
+		// 	;
+		// kprintf("Null\n");
 		/* empty */;
+	}
+	    
+	    
 }
 
 /*------------------------------------------------------------------------

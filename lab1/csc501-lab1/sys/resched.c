@@ -35,10 +35,8 @@ int random_sched() {
 	register struct pentry *optr;
 	register struct pentry *nptr;
 
-    if (currpid == 0) {
-		return OK;
-	}
-
+    if (numrdy() == 0) return OK;
+	
 	optr = &proctab[currpid];
 
 	if (optr->pstate == PRCURR) {
@@ -46,9 +44,8 @@ int random_sched() {
 		insert(currpid, rdyhead, optr->pprio);
 	}
 
-	/* get number of ready processes and sum of their priority 
-	   nrdyproc and sumpprio */
-	info_rdyproc();
+	/* get sum of their priority */
+	int sumpprio = sumrdyprio();
 	/* get random number in range 0 ~ sumpprio */
     int random = get_rand(sumpprio);
 

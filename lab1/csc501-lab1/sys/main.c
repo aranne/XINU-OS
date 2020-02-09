@@ -46,7 +46,7 @@ int main() {
 		chprio(prB, 15);
 		chprio(prE, 5);
 	    // chprio(prE,  5);
-		sleep(60);
+		sleep(5);
 		kill(prA);
 		kill(prB);
 		kill(prC);

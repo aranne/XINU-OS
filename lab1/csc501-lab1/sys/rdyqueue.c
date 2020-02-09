@@ -3,19 +3,27 @@
 #include <kernel.h>
 #include "lab1.h"
 
-int nrdyproc = 0;
-int sumpprio = 0;
 
-void info_rdyproc() {
+int sumrdyprio() {
     int next;
-    nrdyproc = 0;
-    sumpprio = 0;
+    int sumpprio = 0;
 
     next = q[rdyhead].qnext;
     while (next != rdytail) {
-        nrdyproc++;
         sumpprio += q[next].qkey;
         next = q[next].qnext;
     }
-    return;
+    return sumpprio;
+}
+
+int numrdy() {
+    int next;
+    int num = 0;
+    
+    next = q[rdyhead].qnext;
+    while (next != rdytail) {
+        num++;
+        next = q[next].qnext;
+    }
+    return num;
 }

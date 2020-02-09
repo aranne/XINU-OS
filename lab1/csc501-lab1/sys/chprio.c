@@ -5,6 +5,7 @@
 #include <proc.h>
 #include <q.h>
 #include <stdio.h>
+#include "lab1.h"
 
 /*------------------------------------------------------------------------
  * chprio  --  change the scheduling priority of a process
@@ -22,6 +23,10 @@ SYSCALL chprio(int pid, int newprio)
 		return(SYSERR);
 	}
 	pptr->pprio = newprio;
+	if (SCHEDCLASS == RANDOMSCHED) {
+		dequeue(pid);
+	    insert(pid, rdyhead, pptr->pprio);
+	}
 	restore(ps);
 	return(newprio);
 }

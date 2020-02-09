@@ -32,7 +32,37 @@ int resched() {
 }
 
 int random_sched() {
-	return default_sched();
+	register struct pentry *optr;
+	register struct pentry *nptr;
+
+    if (currpid == 0) {
+		return OK;
+	}
+
+	optr = &proctab[currpid];
+
+	if (optr->pstate == PRCURR) {
+		optr->pstate = PRREADY;
+		insert(currpid, rdyhead, optr->pprio);
+	}
+
+	/* get number of ready processes and sum of their priority 
+	   nrdyproc and sumpprio */
+	info_rdyproc();
+	/* get random number in range 0 ~ sumpprio */
+    int random = get_rand(sumpprio);
+
+	/* remove process according to random number */
+    currpid = getrandproc(rdytail, random);
+	nptr = &proctab[currpid];
+	nptr->pstate = PRCURR;		/* mark it currently running	*/
+#ifdef	RTCLOCK
+	preempt = QUANTUM;		/* reset preemption counter	*/
+#endif
+	ctxsw((int)&optr->pesp, (int)optr->pirmask, (int)&nptr->pesp, (int)nptr->pirmask);
+	
+	/* The OLD process returns here when resumed. */
+	return OK;
 }
 
 int linux_sched() {
@@ -59,8 +89,8 @@ int default_sched()
 	}
 
 	/* remove highest priority process at end of ready list */
-
-	nptr = &proctab[ (currpid = getlast(rdytail)) ];
+	currpid = getlast(rdytail);
+	nptr = &proctab[currpid];
 	nptr->pstate = PRCURR;		/* mark it currently running	*/
 #ifdef	RTCLOCK
 	preempt = QUANTUM;		/* reset preemption counter	*/

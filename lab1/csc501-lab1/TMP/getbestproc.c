@@ -20,7 +20,7 @@ int getbestproc(int tail) {
         pptr = &proctab[proc];
         if (pptr->pquantum <= 0) continue;
         int goodness = pptr->pprevprio + pptr->pquantum;
-        if (best < goodness) {
+        if (best <= goodness) {  // round-robin: processes with same goodness
             best = goodness;
             pid = proc;
         } 

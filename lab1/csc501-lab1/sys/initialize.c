@@ -116,9 +116,9 @@ int nulluser()				/* babysit CPU when no one home */
 
     int k;
 	while (TRUE) {
-		// for (k = 0; k < 10000000; k++)
+		// for (k = 0; k < 100000000; k++)
 		// 	;
-		// kprintf("Null\n");
+		// kprintf("Null ");
 		/* empty */
 		;
 	}

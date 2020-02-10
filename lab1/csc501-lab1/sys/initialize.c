@@ -119,7 +119,8 @@ int nulluser()				/* babysit CPU when no one home */
 		// for (k = 0; k < 10000000; k++)
 		// 	;
 		// kprintf("Null\n");
-		/* empty */;
+		/* empty */
+		;
 	}
 	    
 	    
@@ -177,6 +178,8 @@ LOCAL int sysinit()
 	pptr->paddr = (WORD) nulluser;
 	pptr->pargs = 0;
 	pptr->pprio = 0;
+	pptr->pprevprio = 0;
+	pptr->pquantum = 0;
 	currpid = NULLPROC;
 
 	for (i=0 ; i<NSEM ; i++) {	/* initialize semaphores */

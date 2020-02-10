@@ -60,6 +60,8 @@ struct	pentry	{
 	int	fildes[_NFILE];		/* file - device translation	*/
 	int	ppagedev;		/* pageing dgram device		*/
 	int	pwaitret;
+	int pquantum;        /* a quantum run time without preempted */ 
+	int pprevprio;       /* previous priority */
 };
 
 

@@ -58,6 +58,8 @@ SYSCALL create(procaddr,ssize,priority,name,nargs,args)
 	for (i=0 ; i<PNMLEN && (int)(pptr->pname[i]=name[i])!=0 ; i++)
 		;
 	pptr->pprio = priority;
+	pptr->pprevprio = priority;
+	pptr->pquantum = 0;        /* default quantum is 0 */
 	pptr->pbase = (long) saddr;
 	pptr->pstklen = ssize;
 	pptr->psem = 0;

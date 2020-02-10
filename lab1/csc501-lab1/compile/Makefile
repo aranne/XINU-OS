@@ -50,7 +50,7 @@ SYS =	blkcmp.c	blkequ.c	main.c		stacktrace.c	\
 	unsleep.c	userret.c	wait.c		wakeup.c	\
 	write.c		xdone.c		pci.c		shutdown.c  \
 	sched.c     rdyqueue.c  printproc.c getrand.c   \
-	getrdproc.c  
+	getrdproc.c epoch.c     getbestproc.c 
 
 TTY =	ttyalloc.c	ttycntl.c	ttygetc.c	ttyiin.c	\
 	ttyinit.c	ttynew.c	ttyopen.c	ttyputc.c	\

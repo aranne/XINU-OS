@@ -16,6 +16,7 @@ void printproc() {
                 kprintf("\tpstate: PRREADY\n");
             }
             kprintf("\tpriority: %d\n", proc->pprio);
+            kprintf("\tquantum: %d\n", proc->pquantum);
         }
     }
     kprintf("\n");

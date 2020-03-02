@@ -26,6 +26,7 @@
 #define	PRSLEEP		'\005'		/* process is sleeping		*/
 #define	PRSUSP		'\006'		/* process is suspended		*/
 #define	PRWAIT		'\007'		/* process is on semaphore queue*/
+#define PRLWAIT     '\008'      /* process is on a lock waiting queue */
 #define	PRTRECV		'\010'		/* process is timing a receive	*/
 
 /* miscellaneous process definitions */
@@ -59,7 +60,13 @@ struct	pentry	{
 	short	pdevs[2];		/* devices to close upon exit	*/
 	int	fildes[_NFILE];		/* file - device translation	*/
 	int	ppagedev;		/* pageing dgram device		*/
-	int	pwaitret;
+	int	pwaitret;         /* wait return status OK or DELETED */
+	/* for locks */
+	int plockret;         /* wait return status OK or DELETED */
+	long long plholds;       /* bit mask for locks it holds      */
+	unsigned long plbtime;  /* time when entering waiting queue */
+	int plbid;           /* blocked lock id (lock * NLOCK + version) */
+	int plbtype;           /* requesting lock type READ or WRITE */
 };
 
 

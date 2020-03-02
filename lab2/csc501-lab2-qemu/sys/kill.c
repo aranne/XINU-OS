@@ -47,6 +47,8 @@ SYSCALL kill(int pid)
 
 	case PRWAIT:	semaph[pptr->psem].semcnt++;
 
+	case PRLWAIT:   
+
 	case PRREADY:	dequeue(pid);
 			pptr->pstate = PRFREE;
 			break;

@@ -6,7 +6,8 @@
 /* q structure declarations, constants, and inline procedures		*/
 
 #ifndef	NQENT
-#define	NQENT		NPROC + NSEM + NSEM + 4	/* for ready & sleep	*/
+#include "lock.h"
+#define	NQENT		NPROC + NSEM + NSEM + 4	+ NLOCK + NLOCK  /* for ready & sleep	*/
 #endif
 
 struct	qent	{		/* one for each process plus two for	*/

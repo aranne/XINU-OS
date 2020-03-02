@@ -7,6 +7,7 @@
 #include <bufpool.h>
 #include <proc.h>
 #include <sem.h>
+#include <lock.h>
 #include <sleep.h>
 #include <mem.h>
 #include <tty.h>
@@ -176,6 +177,8 @@ LOCAL int sysinit()
 		(sptr = &semaph[i])->sstate = SFREE;
 		sptr->sqtail = 1 + (sptr->sqhead = newqueue());
 	}
+
+	linit();   /* initailize locks */
 
 	rdytail = 1 + (rdyhead=newqueue());/* initialize ready list */
 

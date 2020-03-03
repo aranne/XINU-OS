@@ -101,11 +101,11 @@ void test2 ()
         lck  = lcreate ();
         assert (lck != SYSERR, "Test 2 failed");
 
-	rd1 = create(reader2, 2000, 20, "reader2", 3, 'A', lck, 20);
-	rd2 = create(reader2, 2000, 20, "reader2", 3, 'B', lck, 30);
-	rd3 = create(reader2, 2000, 20, "reader2", 3, 'D', lck, 25);
-	rd4 = create(reader2, 2000, 20, "reader2", 3, 'E', lck, 20);
-        wr1 = create(writer2, 2000, 20, "writer2", 3, 'C', lck, 28);
+	rd1 = create(reader2, 2000, 20, "A", 3, 'A', lck, 20);
+	rd2 = create(reader2, 2000, 20, "B", 3, 'B', lck, 30);
+	rd3 = create(reader2, 2000, 20, "D", 3, 'D', lck, 25);
+	rd4 = create(reader2, 2000, 20, "E", 3, 'E', lck, 20);
+        wr1 = create(writer2, 2000, 20, "C", 3, 'C', lck, 28);
 	
         kprintf("-start reader A, then sleep 1s. lock granted to reader A\n");
         resume(rd1);
@@ -120,7 +120,6 @@ void test2 ()
         resume (rd2);
 	resume (rd3);
 	resume (rd4);
-
 
         sleep (15);
         kprintf("output=%s\n", output2);
@@ -205,13 +204,37 @@ void testinit() {
         }
 }
 
+void testcreate() {
+        /* more than NLOCK locks */
+        int i;
+        int ldes;
+        for (i = 0; i < NLOCK; i++) {
+                ldes = lcreate();
+        }
+        int f = lcreate();
+        assert (f == SYSERR, "Fail\n");
+
+        /* different version */
+        int pver = locktab[ldes/NLOCK].lversion;
+        ldelete(ldes);
+        int new = lcreate();
+        int nver = locktab[new/NLOCK].lversion;
+        assert(ldes/NLOCK == new/NLOCK, "fail1\n");
+        assert(pver + 1 == nver, "fail2\n");
+
+}
+
+void testlock() {
+        
+}
+
 int main( )
 {
         /* These test cases are only used for test purposes.
          * The provided results do not guarantee your correctness.
          * You need to read the PA2 instruction carefully.
          */
-	testinit();
+	test2();
 	
 
         /* The hook to shutdown QEMU for process-like execution of XINU.

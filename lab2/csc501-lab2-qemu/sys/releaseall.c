@@ -27,7 +27,8 @@ SYSCALL releaseall (int numlocks, int ldes1, ...) {
             lptr->lockcnt--;
         } else {
             lptr->lockcnt = 0;
-            if (assignnext(lock)) {
+            int assign = assignnext(lock);
+            if (assign) {
                 needresch = TRUE;
             }
         }
@@ -50,15 +51,18 @@ int assignnext(int lock) {
     struct lentry *lptr = &locktab[lock];
     if (isempty(lptr->lqhead)) return FALSE;
 
-    int* max = maxwrite(lock);
+    int max[2];
+    maxwrite(max, lock);
     int wakeread = FALSE;
     int proc = q[lptr->lqtail].qprev;
     /* try to wake up readers */
+    int nextproc;
     for ( ; proc < NPROC && proctab[proc].plbtype == READ
             && (q[proc].qkey > max[0] 
                 || (q[proc].qkey == max[0] 
                     && proctab[proc].plbtime <= proctab[max[1]].plbtime + 40)) ; 
-            proc = q[proc].qprev) {
+            proc = nextproc) {
+        nextproc = q[proc].qprev;  // preserve next proc 
         wakeread = TRUE;
         dequeue(proc);
         acquirelock(lock, READ, proc);

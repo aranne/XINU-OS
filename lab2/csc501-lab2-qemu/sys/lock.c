@@ -28,10 +28,10 @@ SYSCALL lock(int ldes, int type, int priority) {
         }
     } else {
         if (!(haslock(lock) && iswrite(lock))) { // doesn't have write lock
-            getlock = slock(ldes, priority);
-            if (getlock == OK) {
-                getlock  = xlock(ldes, priority);
+            if (haslock(lock)) {
+                releaseall(1, ldes);
             }
+            getlock = xlock(ldes, priority);
         }
     }
     if (getlock == OK) {
@@ -84,7 +84,7 @@ int xlock(int ldes, int priority) {
     }
     int getlock;
     int lock = ldes / NLOCK;
-    if (isotherread(lock)) { // has gotten slock.
+    if (!isidle(lock)) { // has gotten slock.
         getlock = waitlock(ldes, priority, WRITE);
     } else {
         getlock = acquirelock(lock, WRITE, currpid);
@@ -132,7 +132,8 @@ int waitlock(int ldes, int priority, int type) {
 }
 
 int canread(int lock, int priority) {
-    int* max = maxwrite(lock);
+    int max[2];
+    maxwrite(max, lock);
     if (max[0] == -1) return TRUE;
     if (priority > max[0]) {
         return TRUE;
@@ -141,9 +142,8 @@ int canread(int lock, int priority) {
     }
 }
 
-/* return [-1,-1] means no writer */
-int* maxwrite(int lock) {
-    int max[2];
+/* return buffer max [-1,-1] means no writer */
+void maxwrite(int* max, int lock) {
     max[0] = -1;      /* max priority */
     max[1] = EMPTY;   /* pid          */
     int proc = q[locktab[lock].lqtail].qprev;
@@ -154,7 +154,6 @@ int* maxwrite(int lock) {
             break;
         }
     }
-    return max;
 }
 
 int validlock(int ldes) {    /* check validation of lock  */

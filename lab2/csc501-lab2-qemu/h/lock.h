@@ -38,7 +38,10 @@ int haslock(int lock);                        /* check current process has this 
 int acquirelock(int lock, int type, int proc);            /* acquire this lock                   */
 int waitlock(int ldes, int priority, int type); /* wait on this lock                   */
 void releaselock(int lock);                    /* release a lock              */
-int* maxwrite(int lock);                    /* find the max priority of a writer    */
+void maxwrite(int* max, int lock);                    /* find the max priority of a writer    */
+void printproc(void);
+void printqueue(int head);
+
 
 #define isbadlock(l) (l<0 || l>=NLOCK)
 #define isidle(l) (locktab[(l)].lockcnt == 0)

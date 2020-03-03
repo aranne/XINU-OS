@@ -1,7 +1,7 @@
 #include "lock.h"
 #include "q.h"
 
-struct lentry locktab[];
+struct lentry locktab[NLOCK];
 int nextlock;
 
 void linit() {
@@ -10,7 +10,8 @@ void linit() {
 
     int i;
     for (i = 0; i < NLOCK; i++) {
-        (lptr = &locktab[i])->lstate = LFREE;
+        lptr = &locktab[i];
+        lptr->lstate = LFREE;
         lptr->lversion = 0;                   /* init version is 0 */
         lptr->lqtail = 1 + (lptr->lqhead = newqueue());
     }

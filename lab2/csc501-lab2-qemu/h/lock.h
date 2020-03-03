@@ -19,7 +19,7 @@ struct lentry {    /* lock entry                     */
     int lockcnt;   /* count of this lock             */
     int lqhead;    /* q index of head of list        */
     int lqtail;    /* q index of tail of list        */
-    long long lprocs; /*  processes holding this lock */
+    unsigned long long lprocs; /*  processes holding this lock */
     int lmaxprio;   /* max priority of processes holding this lock */
 };
 
@@ -34,6 +34,11 @@ SYSCALL lock(int ldes, int type, int priority); /* acquire a lock   */
 SYSCALL releaseall (int numlocks, int ldes1, ...); /* release specific locks */
 
 int validlock(int ldes);                      /* check validation of lock  */
+int haslock(int lock);                        /* check current process has this lock */
+int acquirelock(int lock, int type, int proc);            /* acquire this lock                   */
+int waitlock(int ldes, int priority, int type); /* wait on this lock                   */
+void releaselock(int lock);                    /* release a lock              */
+int* maxwrite(int lock);                    /* find the max priority of a writer    */
 
 #define isbadlock(l) (l<0 || l>=NLOCK)
 #define isidle(l) (locktab[(l)].lockcnt == 0)

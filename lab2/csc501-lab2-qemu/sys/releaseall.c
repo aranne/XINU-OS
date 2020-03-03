@@ -1,22 +1,74 @@
 #include <kernel.h>
+#include <proc.h>
 #include "lock.h"
+
+int assignnext(int lock);                     /* assign lock to next process */
 
 SYSCALL releaseall (int numlocks, int ldes1, ...) {
     int nargs = numlocks;
     unsigned int *a = (unsigned int *) &ldes1;     /* points to list of args */
-    int ldes;
+    int ldes, lock;
+    struct lentry *lptr;
 
     STATWORD ps;
     disable(ps);
     int ret = OK;
+    int needresch = FALSE;
     for ( ; nargs > 0; nargs--) {
         ldes = *a++;
-        if (!validlock(ldes)) {
+        lock = ldes / NLOCK;
+        if (!validlock(ldes) || !haslock(lock)) {
             ret = SYSERR;
             continue;
         }
-        
+        lptr = &locktab[lock];
+        releaselock(lock);
+        if (isotherread(lock)) {
+            lptr->lockcnt--;
+        } else {
+            lptr->lockcnt = 0;
+            if (assignnext(lock)) {
+                needresch = TRUE;
+            }
+        }
     }
+    if (needresch) {
+        resched();
+    }
+    restore(ps);
+    return ret;
+}
 
-    return OK;
+
+void releaselock(int lock) {
+    struct lentry *lptr = &locktab[lock];
+    lptr->lprocs &= ~(1LL << currpid);
+    proctab[currpid].plholds &= ~(1LL << lock);
+}
+
+int assignnext(int lock) {
+    struct lentry *lptr = &locktab[lock];
+    if (isempty(lptr->lqhead)) return FALSE;
+
+    int* max = maxwrite(lock);
+    int wakeread = FALSE;
+    int proc = q[lptr->lqtail].qprev;
+    /* try to wake up readers */
+    for ( ; proc < NPROC && proctab[proc].plbtype == READ
+            && (q[proc].qkey > max[0] 
+                || (q[proc].qkey == max[0] 
+                    && proctab[proc].plbtime <= proctab[max[1]].plbtime + 40)) ; 
+            proc = q[proc].qprev) {
+        wakeread = TRUE;
+        dequeue(proc);
+        acquirelock(lock, READ, proc);
+        ready(proc, RESCHNO);
+    }
+    /* try to wake up writers */
+    if (!wakeread) {
+        dequeue(max[1]);
+        acquirelock(lock, WRITE, max[1]);
+        ready(max[1], RESCHNO);
+    }
+    return TRUE;
 }

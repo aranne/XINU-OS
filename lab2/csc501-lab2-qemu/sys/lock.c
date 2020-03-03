@@ -6,9 +6,6 @@ unsigned long ctr1000;
 
 int slock(int ldes, int priority);
 int xlock(int ldes, int priority);
-int haslock(int lock);                           /* check current process has this lock */
-int acquirelock(int lock, int type);            /* acquire this lock                   */
-int waitlock(int ldes, int priority, int type); /* wait on this lock                   */
 int canread(int lock, int priority);  /* check if grace period for read */
 
 /*------------------------------------------------------------------------
@@ -46,12 +43,6 @@ SYSCALL lock(int ldes, int type, int priority) {
     }
 }
 
-int haslock(int lock) {
-    long long mask = proctab[currpid].plholds;
-    long long test = 1 << lock;
-    return mask & test == test;
-}
-
 int slock(int ldes, int priority) {
     STATWORD ps;
     struct	pentry	*pptr;
@@ -64,9 +55,9 @@ int slock(int ldes, int priority) {
     int getlock;
     int lock = ldes / NLOCK;
     if (isidle(lock)) {
-        getlock = acquirelock(lock, READ);
+        getlock = acquirelock(lock, READ, currpid);
     } else if (isread(lock) && canread(lock, priority)) {
-        getlock = acquirelock(lock, READ);
+        getlock = acquirelock(lock, READ, currpid);
     } else {
         getlock = waitlock(ldes, priority, READ);
     }
@@ -96,7 +87,7 @@ int xlock(int ldes, int priority) {
     if (isotherread(lock)) { // has gotten slock.
         getlock = waitlock(ldes, priority, WRITE);
     } else {
-        getlock = acquirelock(lock, WRITE);
+        getlock = acquirelock(lock, WRITE, currpid);
     }
     if (getlock) {
         restore(ps);
@@ -110,15 +101,15 @@ int xlock(int ldes, int priority) {
     }
 }
 
-int acquirelock(int lock, int type) {
+int acquirelock(int lock, int type, int proc) {
     struct lentry *lptr = &locktab[lock];
     if (type == READ) {
         lptr->lockcnt++;
     } else {
         lptr->lockcnt = -1;
     }  
-    lptr->lprocs |= (1 << currpid);
-    proctab[currpid].plholds |= (1 << lock);
+    lptr->lprocs |= (1LL << proc);
+    proctab[proc].plholds |= (1LL << lock);
     return TRUE;
 }
 
@@ -141,22 +132,29 @@ int waitlock(int ldes, int priority, int type) {
 }
 
 int canread(int lock, int priority) {
-    int max = -1;
-    int proc = q[locktab[lock].lqtail].qprev;
-
-    /* find max priority of write process */
-    for (; proc < NPROC; proc = q[proc].qprev) {
-        if (proctab[proc].plbtype == WRITE) {
-            max = q[proc].qkey;
-            break;
-        }
-    }
-    if (max == -1) return TRUE;
-    if (priority > max) {
+    int* max = maxwrite(lock);
+    if (max[0] == -1) return TRUE;
+    if (priority > max[0]) {
         return TRUE;
     } else {
         return FALSE;
     }
+}
+
+/* return [-1,-1] means no writer */
+int* maxwrite(int lock) {
+    int max[2];
+    max[0] = -1;      /* max priority */
+    max[1] = EMPTY;   /* pid          */
+    int proc = q[locktab[lock].lqtail].qprev;
+    for ( ; proc < NPROC; proc = q[proc].qprev) {
+        if (proctab[proc].plbtype == WRITE) {
+            max[0] = q[proc].qkey;
+            max[1] = proc;
+            break;
+        }
+    }
+    return max;
 }
 
 int validlock(int ldes) {    /* check validation of lock  */
@@ -164,4 +162,10 @@ int validlock(int ldes) {    /* check validation of lock  */
     int version = ldes % NLOCK;
     return (!isbadlock(lock) && locktab[lock].lstate != LFREE 
             && version == locktab[lock].lversion);
+}
+
+int haslock(int lock) {
+    unsigned long long mask = proctab[currpid].plholds;
+    unsigned long long test = (1LL << lock);
+    return (mask & test) == test;
 }

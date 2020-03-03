@@ -12,7 +12,7 @@ SYSCALL lcreate() {
     int ldes;       /* lock description */
 
     disable(ps);
-    if (ldes = newlock() == SYSERR) {
+    if ((ldes = newlock()) == SYSERR) {
         restore(ps);
         return SYSERR;
     }

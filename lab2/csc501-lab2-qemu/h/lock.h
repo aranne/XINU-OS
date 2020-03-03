@@ -40,7 +40,7 @@ int waitlock(int ldes, int priority, int type); /* wait on this lock            
 void releaselock(int lock);                    /* release a lock              */
 void maxwrite(int* max, int lock);                    /* find the max priority of a writer    */
 void printproc(void);
-void printqueue(int head);
+void printqueue(int tail);
 
 
 #define isbadlock(l) (l<0 || l>=NLOCK)

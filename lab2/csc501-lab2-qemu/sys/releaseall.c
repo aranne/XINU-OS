@@ -57,16 +57,20 @@ int assignnext(int lock) {
     int proc = q[lptr->lqtail].qprev;
     /* try to wake up readers */
     int nextproc;
-    for ( ; proc < NPROC && proctab[proc].plbtype == READ
+    while (proc < NPROC) {
+        if (proctab[proc].plbtype == READ 
             && (q[proc].qkey > max[0] 
                 || (q[proc].qkey == max[0] 
-                    && proctab[proc].plbtime <= proctab[max[1]].plbtime + 40)) ; 
-            proc = nextproc) {
-        nextproc = q[proc].qprev;  // preserve next proc 
-        wakeread = TRUE;
-        dequeue(proc);
-        acquirelock(lock, READ, proc);
-        ready(proc, RESCHNO);
+                     && proctab[proc].plbtime <= proctab[max[1]].plbtime + 40)) ) {
+            nextproc = q[proc].qprev;  // preserve next proc 
+            wakeread = TRUE;
+            dequeue(proc);
+            acquirelock(lock, READ, proc);
+            ready(proc, RESCHNO);
+            proc = nextproc;
+        } else {
+            proc = q[proc].qprev;
+        }     
     }
     /* try to wake up writers */
     if (!wakeread) {

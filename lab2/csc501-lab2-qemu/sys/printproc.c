@@ -28,11 +28,12 @@ void printproc() {
 void printqueue(int tail) {
 	int proc = q[tail].qprev;
 	for ( ; proc < NPROC; proc = q[proc].qprev) {
-		kprintf("Process [%s]\n", proctab[proc].pname);
+		kprintf("Process [%s]:%d\n", proctab[proc].pname, proc);
         if (proctab[proc].plbtype == READ) {
             kprintf("\tplbtype: READ\n");
         } else {
-            kprintf("\tpbltype: WRITE\n");
+            kprintf("\tplbtype: WRITE\n");
         }
+        kprintf("\tplbtime: %ld\n", proctab[proc].plbtime);
 	}
 }

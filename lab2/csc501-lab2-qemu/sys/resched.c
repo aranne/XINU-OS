@@ -4,6 +4,7 @@
 #include <kernel.h>
 #include <proc.h>
 #include <q.h>
+#include "lock.h"
 
 unsigned long currSP;	/* REAL sp of current process */
 extern int ctxsw(int, int, int, int);
@@ -23,7 +24,7 @@ int resched()
 	/* no switch needed if current process priority higher than next*/
 
 	if ( ( (optr= &proctab[currpid])->pstate == PRCURR) &&
-	   (lastkey(rdytail)<optr->pprio)) {
+	   (lastkey(rdytail)<getinhprio(currpid))) {
 		return(OK);
 	}
 	
@@ -31,7 +32,7 @@ int resched()
 
 	if (optr->pstate == PRCURR) {
 		optr->pstate = PRREADY;
-		insert(currpid,rdyhead,optr->pprio);
+		insert(currpid,rdyhead,getinhprio(currpid));
 	}
 
 	/* remove highest priority process at end of ready list */

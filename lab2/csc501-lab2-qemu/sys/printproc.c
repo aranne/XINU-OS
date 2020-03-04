@@ -19,7 +19,6 @@ void printproc() {
             } else {
                 kprintf("\tpstate: PRSLEEP\n");
             }
-            // kprintf("\tpriority: %d\n", proc->pprio);
         }
     }
     kprintf("\n");

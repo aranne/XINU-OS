@@ -4,6 +4,7 @@
 #include <kernel.h>
 #include <proc.h>
 #include <stdio.h>
+#include "lock.h"
 
 /*------------------------------------------------------------------------
  * resume  --  unsuspend a process, making it ready; return the priority
@@ -20,7 +21,7 @@ SYSCALL resume(int pid)
 		restore(ps);
 		return(SYSERR);
 	}
-	prio = pptr->pprio;
+	prio = getinhprio(pid);
 	ready(pid, RESCHYES);
 	restore(ps);
 	return(prio);

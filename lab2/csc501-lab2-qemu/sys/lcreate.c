@@ -46,7 +46,7 @@ LOCAL int newlock() {
             lptr->lstate = LUSED;
             lptr->lockcnt = 0;
             lptr->lprocs = 0;
-            lptr->lmaxprio = 0;
+            lptr->lwaitprio = 0;
             /* return lock and version value as a pair */
             return lock * NLOCK + version;       /* lock description */
         }

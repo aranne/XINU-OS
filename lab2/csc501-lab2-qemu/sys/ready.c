@@ -4,6 +4,7 @@
 #include <kernel.h>
 #include <proc.h>
 #include <q.h>
+#include "lock.h"
 
 /*------------------------------------------------------------------------
  * ready  --  make a process eligible for CPU service
@@ -17,7 +18,7 @@ int ready(int pid, int resch)
 		return(SYSERR);
 	pptr = &proctab[pid];
 	pptr->pstate = PRREADY;
-	insert(pid,rdyhead,pptr->pprio);
+	insert(pid,rdyhead,getinhprio(pid));
 	if (resch)
 		resched();
 	return(OK);

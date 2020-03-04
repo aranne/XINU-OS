@@ -20,7 +20,7 @@ struct lentry {    /* lock entry                     */
     int lqhead;    /* q index of head of list        */
     int lqtail;    /* q index of tail of list        */
     unsigned long long lprocs; /*  processes holding this lock */
-    int lmaxprio;   /* max priority of processes holding this lock */
+    int lwaitprio;   /* max priority of processes waiting for this lock */
 };
 
 extern struct lentry locktab[];
@@ -42,6 +42,9 @@ void releaselock(int lock);                    /* release a lock              */
 void maxwrite(int* max, int lock);                    /* find the max priority of a writer    */
 void printproc(void);
 void printqueue(int tail);
+
+/* priority inheritance caused by lock block */
+int getinhprio(int proc);                         /* get the priority of process pprio or pinh */
 
 
 #define isbadlock(l) (l<0 || l>=NLOCK)

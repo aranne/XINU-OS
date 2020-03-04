@@ -63,10 +63,11 @@ struct	pentry	{
 	int	pwaitret;         /* wait return status OK or DELETED */
 	/* for locks */
 	int plockret;         /* wait return status OK or DELETED */
-	unsigned long long plholds;       /* bit mask for locks it holds      */
+	unsigned long long plholds; /* bit mask for locks it holds  */
 	unsigned long plbtime;  /* time when entering waiting queue */
 	int plbid;           /* blocked lock id (lock * NLOCK + version) */
 	int plbtype;           /* requesting lock type READ or WRITE */
+	int pinh;              /* the current inherited priority    */
 };
 
 

@@ -224,8 +224,171 @@ void testcreate() {
 
 }
 
-void testlock() {
+void readerd (char msg, int lck, int lprio)
+{
+        int     ret;
+
+        kprintf ("  %c: to acquire lock\n", msg);
+        int status = lock (lck, READ, lprio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        kprintf ("  %c: to release lock\n", msg);
+	status = releaseall (1, lck);
+        if (status == OK) {
+                kprintf ("  %c: release lock\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        sleep (3);
+        kprintf ("  %c: to acquire lock\n", msg);
+        status = lock (lck, READ, lprio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
         
+
+        kprintf ("  %c: to release lock\n", msg);
+	status = releaseall (1, lck);
+        if (status == OK) {
+                kprintf ("  %c: release lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+}
+
+void testdelete() {
+        int rd1, wr1;
+        int lck = lcreate();
+        rd1 = create(readerd, 2000, 20, "A", 3, 'A', lck, 20);
+        wr1 = create(writer2, 2000, 20, "W", 3, 'W', lck, 20);
+        resume(wr1);
+        resume(rd1);
+        ldelete(lck);
+        kprintf("deleting lock\n");
+}
+
+void readerv (char msg, int lck, int lprio)
+{
+        int     ret;
+
+        kprintf ("  %c: to acquire lock\n", msg);
+        int status = lock (lck, READ, lprio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        kprintf ("  %c: to release lock\n", msg);
+	status = releaseall (1, lck);
+        if (status == OK) {
+                kprintf ("  %c: release lock\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        sleep(3);
+        kprintf ("  %c: to acquire lock\n", msg);
+        status = lock (lck, READ, lprio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        kprintf ("  %c: to release lock\n", msg);
+	status = releaseall (1, lck);
+        if (status == OK) {
+                kprintf ("  %c: release lock\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+}
+
+void testversion() {
+        int i;
+        int ldes;
+        for (i = 0; i < NLOCK-1; i++) {
+                ldes = lcreate();
+        }
+        int lck = lcreate();
+        kprintf("lockid:%d\n", lck/NLOCK);
+        int rd1, wr1;
+        rd1 = create(readerv, 2000, 20, "A", 3, 'A', lck, 20);
+        wr1 = create(writer2, 2000, 20, "W", 3, 'W', lck, 20);
+        resume(wr1);
+        resume(rd1);
+        ldelete(lck);
+        lck = lcreate();
+        kprintf("lockid:%d\n", lck/NLOCK);
+}
+
+void trelease(char msg, int slock1, int slock2, int xlock1, int lprio) {
+        kprintf ("  %c: to acquire lock\n", msg);
+        int status = lock (slock1, READ, lprio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        status = lock (slock2, READ, lprio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        status = lock (xlock1, WRITE, lprio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        int lock;
+        for (lock = 0; lock < NLOCK; lock++) {
+                if (haslock(lock, currpid)) {
+                        kprintf("lock: %d\n", lock);
+                }
+        }
+        kprintf("start releasing locks\n");
+        releasealllock(currpid);
+        for (lock = 0; lock < NLOCK; lock++) {
+                if (haslock(lock, currpid)) {
+                        kprintf("lock: %d\n", lock);
+                }
+        }
+}
+
+void testrelease() {
+        int pid;
+        int slock1 = lcreate();
+        int slock2 = lcreate();
+        int xlock1 = lcreate();
+        pid = create(trelease, 2000, 20, "A", 5, 'A', slock1, slock2, xlock1, 20);
+        resume(pid);
 }
 
 int main( )
@@ -234,13 +397,13 @@ int main( )
          * The provided results do not guarantee your correctness.
          * You need to read the PA2 instruction carefully.
          */
-	test2();
+	testrelease();
 	
 
         /* The hook to shutdown QEMU for process-like execution of XINU.
          * This API call exists the QEMU process.
          */
-        shutdown();
+        // shutdown();
 }
 
 

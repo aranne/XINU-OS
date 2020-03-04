@@ -17,7 +17,7 @@ SYSCALL releaseall (int numlocks, int ldes1, ...) {
     for ( ; nargs > 0; nargs--) {
         ldes = *a++;
         lock = ldes / NLOCK;
-        if (!validlock(ldes) || !haslock(lock)) {
+        if (!validlock(ldes) || !haslock(lock, currpid)) {
             ret = SYSERR;
             continue;
         }
@@ -79,4 +79,17 @@ int assignnext(int lock) {
         ready(max[1], RESCHNO);
     }
     return TRUE;
+}
+
+SYSCALL releasealllock(int proc) {
+    STATWORD ps;
+    disable(ps);
+    int lock;
+    for (lock = 0; lock < NLOCK; lock++) {
+        if (haslock(lock, proc)) {
+            releaseall(1, lock * NLOCK + locktab[lock].lversion);
+        }
+    }
+    restore(ps);
+    return OK;
 }

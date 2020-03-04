@@ -32,9 +32,10 @@ SYSCALL lcreate(void);     /* create a lock   */
 SYSCALL ldelete(int ldes); /* delete a lock according to description */
 SYSCALL lock(int ldes, int type, int priority); /* acquire a lock   */
 SYSCALL releaseall (int numlocks, int ldes1, ...); /* release specific locks */
+SYSCALL releasealllock(int proc);                /* release all locks the process has   */
 
 int validlock(int ldes);                      /* check validation of lock  */
-int haslock(int lock);                        /* check current process has this lock */
+int haslock(int lock, int pid);                        /* check the process has this lock */
 int acquirelock(int lock, int type, int proc);            /* acquire this lock                   */
 int waitlock(int ldes, int priority, int type); /* wait on this lock                   */
 void releaselock(int lock);                    /* release a lock              */

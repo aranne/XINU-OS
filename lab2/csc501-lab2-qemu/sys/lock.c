@@ -23,12 +23,12 @@ SYSCALL lock(int ldes, int type, int priority) {
 
     int getlock = OK;
     if (type == READ) {
-        if (!haslock(lock)) {
+        if (!haslock(lock, currpid)) {
             getlock = slock(ldes, priority);
         }
     } else {
-        if (!(haslock(lock) && iswrite(lock))) { // doesn't have write lock
-            if (haslock(lock)) {
+        if (!(haslock(lock, currpid) && iswrite(lock))) { // doesn't have write lock
+            if (haslock(lock, currpid)) {
                 releaseall(1, ldes);
             }
             getlock = xlock(ldes, priority);
@@ -163,8 +163,8 @@ int validlock(int ldes) {    /* check validation of lock  */
             && version == locktab[lock].lversion);
 }
 
-int haslock(int lock) {
-    unsigned long long mask = proctab[currpid].plholds;
+int haslock(int lock, int pid) {
+    unsigned long long mask = proctab[pid].plholds;
     unsigned long long test = (1LL << lock);
     return (mask & test) == test;
 }

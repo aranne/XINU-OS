@@ -7,6 +7,7 @@
 #include <mem.h>
 #include <io.h>
 #include <q.h>
+#include "lock.h"
 #include <stdio.h>
 
 /*------------------------------------------------------------------------
@@ -44,18 +45,19 @@ SYSCALL kill(int pid)
 
 	case PRCURR:	pptr->pstate = PRFREE;	/* suicide */
 			resched();
+			break;
 
 	case PRWAIT:	semaph[pptr->psem].semcnt++;
-
+					/* fall through	*/
 	case PRLWAIT:   
-
+			
 	case PRREADY:	dequeue(pid);
 			pptr->pstate = PRFREE;
 			break;
 
 	case PRSLEEP:
 	case PRTRECV:	unsleep(pid);
-						/* fall through	*/
+					/* fall through	*/
 	default:	pptr->pstate = PRFREE;
 	}
 	restore(ps);

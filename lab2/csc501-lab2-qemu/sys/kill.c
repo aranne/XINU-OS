@@ -45,12 +45,11 @@ SYSCALL kill(int pid)
 
 	case PRCURR:	pptr->pstate = PRFREE;	/* suicide */
 			resched();
-			break;
 
 	case PRWAIT:	semaph[pptr->psem].semcnt++;
 					/* fall through	*/
 	case PRLWAIT:   releasealllock(pid);
-			
+					/* fall through	*/
 	case PRREADY:	dequeue(pid);
 			pptr->pstate = PRFREE;
 			break;

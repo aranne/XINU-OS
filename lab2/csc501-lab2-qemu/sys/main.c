@@ -10,6 +10,9 @@
             kprintf(error);\
             return;\
             }
+
+extern unsigned long ctr1000;
+
 int mystrncmp(char* des,char* target,int n){
     int i;
     for (i=0;i<n;i++){
@@ -47,7 +50,6 @@ void test1 ()
 	resume(pid1);
 	resume(pid2);
         int lock = lck / NLOCK;
-        kprintf("%d\n", lock);
         assert (locktab[lock].lprocs == ((1LL<<pid1)|(1LL<<pid2)), "Failed\n");
         assert (proctab[pid1].plholds == (1LL<<lock), "failed1\n");
         assert (proctab[pid2].plholds == (1LL<<lock), "failed2\n");
@@ -447,13 +449,14 @@ int main( )
          * The provided results do not guarantee your correctness.
          * You need to read the PA2 instruction carefully.
          */
-	testkill();
+	test1();
+        test2();
 	
 
         /* The hook to shutdown QEMU for process-like execution of XINU.
          * This API call exists the QEMU process.
          */
-        // shutdown();
+        shutdown();
 }
 
 

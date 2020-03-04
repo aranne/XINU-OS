@@ -391,13 +391,63 @@ void testrelease() {
         resume(pid);
 }
 
+void tkill(char msg, int slock1, int slock2, int xlock1, int lprio) {
+        kprintf ("  %c: to acquire lock\n", msg);
+        int status = lock (slock1, READ, lprio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        status = lock (slock2, READ, lprio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        status = lock (xlock1, WRITE, lprio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        int lock;
+        for (lock = 0; lock < NLOCK; lock++) {
+                if (haslock(lock, currpid)) {
+                        kprintf("lock: %d\n", lock);
+                }
+        }
+        sleep(5);
+        for (lock = 0; lock < NLOCK; lock++) {
+                if (haslock(lock, currpid)) {
+                        kprintf("lock: %d\n", lock);
+                }
+        }
+}
+
+void testkill() {
+        int pid;
+        int slock1 = lcreate();
+        int slock2 = lcreate();
+        int xlock1 = lcreate();
+        pid = create(tkill, 2000, 20, "A", 5, 'A', slock1, slock2, xlock1, 20);
+        resume(pid);
+        kill(pid);
+}
+
 int main( )
 {
         /* These test cases are only used for test purposes.
          * The provided results do not guarantee your correctness.
          * You need to read the PA2 instruction carefully.
          */
-	testrelease();
+	testkill();
 	
 
         /* The hook to shutdown QEMU for process-like execution of XINU.

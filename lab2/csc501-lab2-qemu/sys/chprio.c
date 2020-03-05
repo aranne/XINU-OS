@@ -22,13 +22,12 @@ SYSCALL chprio(int pid, int newprio)
 		restore(ps);
 		return(SYSERR);
 	}
-	int increased = FALSE;
-	if (newprio > getinhprio(pid)) {
-		pptr->pinh = 0;
-		increased = TRUE;
-	}
+	int prevprio = getinhprio(pid);
 	pptr->pprio = newprio;
-	if (increased && pptr->pstate == PRLWAIT) {
+	if (pptr->pinh <= newprio) {
+		pptr->pinh = 0;
+	}
+	if (prevprio != getinhprio(pid) && pptr->pstate == PRLWAIT) {
 		int ldes = pptr->plbid;
 		if (validlock(ldes)) {
 			int lock = ldes / NLOCK;
@@ -37,5 +36,5 @@ SYSCALL chprio(int pid, int newprio)
 		}
 	}
 	restore(ps);
-	return(newprio);
+	return(getinhprio(pid));
 }

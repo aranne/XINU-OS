@@ -49,19 +49,19 @@ void updateprio_holdinglocks(int pid) {
             }
         }
     }
+    int prevprio = getinhprio(pid);
     if (max <= proctab[pid].pprio) {
         proctab[pid].pinh = 0;
     } else {
-        int prevprio = getinhprio(pid);
         proctab[pid].pinh = max;
-        /* if priority increases & PRLWAIT, priority transition */
-        if (getinhprio(pid) > prevprio && proctab[pid].pstate == PRLWAIT) {     
-            int ldes = proctab[pid].plbid;
-            if (validlock(ldes)) {
-                int l = ldes / NLOCK;
-                updatemaxwaitprio(l);
-                updateprio_heldprocs(l);
-            }
+    }
+    /* if priority changes & PRLWAIT, priority transition */
+    if (prevprio != getinhprio(pid) && proctab[pid].pstate == PRLWAIT) {     
+        int ldes = proctab[pid].plbid;
+        if (validlock(ldes)) {
+            int l = ldes / NLOCK;
+            updatemaxwaitprio(l);
+            updateprio_heldprocs(l);
         }
     }
 }

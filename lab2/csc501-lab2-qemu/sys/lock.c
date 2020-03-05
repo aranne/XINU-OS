@@ -104,7 +104,7 @@ int acquirelock(int lock, int type, int proc) {
     lptr->lprocs |= (1LL << proc);
     proctab[proc].plholds |= (1LL << lock);
     updatemaxwaitprio(lock);
-    updateprio_holdinglocks(proc);
+    updateprio_heldprocs(lock);
     return TRUE;
 }
 

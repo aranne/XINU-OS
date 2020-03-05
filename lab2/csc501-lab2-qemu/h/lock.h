@@ -33,19 +33,22 @@ SYSCALL ldelete(int ldes); /* delete a lock according to description */
 SYSCALL lock(int ldes, int type, int priority); /* acquire a lock   */
 SYSCALL releaseall (int numlocks, int ldes1, ...); /* release specific locks */
 SYSCALL releasealllock(int proc);                /* release all locks the process has   */
+SYSCALL releaseone(int pid, int ldes);
 
-int validlock(int ldes);                      /* check validation of lock  */
-int haslock(int lock, int pid);                        /* check the process has this lock */
-int acquirelock(int lock, int type, int proc);            /* acquire this lock                   */
-int waitlock(int ldes, int priority, int type); /* wait on this lock                   */
-void releaselock(int lock);                    /* release a lock              */
-void maxwrite(int* max, int lock);                    /* find the max priority of a writer    */
+int validlock(int ldes);                        /* check validation of lock           */
+int haslock(int lock, int pid);                 /* check the process has this lock    */
+int acquirelock(int lock, int type, int proc);  /* acquire this lock                  */
+int waitlock(int ldes, int priority, int type); /* wait on this lock                  */
+void releaselock(int lock, int pid);            /* release a lock for process pid     */
+void maxwrite(int* max, int lock);              /* find the max priority of a writer  */
 void printproc(void);
 void printqueue(int tail);
 
 /* priority inheritance caused by lock block */
-int getinhprio(int proc);                         /* get the priority of process pprio or pinh */
-
+int getinhprio(int proc);                         /* get the priority of process: pprio or pinh */
+void updateprio_heldprocs(int lock);             /* increase priority of processes holding this lock */ 
+void updatemaxwaitprio(int lock);                    /* find the max priority of processes waiting for the lock */
+void updateprio_holdinglocks(int pid);                     /* find max wait priority of locks holding by process pid */ 
 
 #define isbadlock(l) (l<0 || l>=NLOCK)
 #define isidle(l) (locktab[(l)].lockcnt == 0)

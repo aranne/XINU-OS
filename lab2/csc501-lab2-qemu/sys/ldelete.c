@@ -18,8 +18,16 @@ SYSCALL ldelete(int ldes) {
         return SYSERR;
     }
     int lock = ldes / NLOCK;
+    int i;
+    /* free lock from process holding it */
+    for (i = 0; i < NPROC; i++) {
+        if (haslock(lock, i)) {
+            releaselock(lock, i);
+        }
+    }
     lptr = &locktab[lock];
     lptr->lstate = LFREE;
+    /* free lock from process waiting it */
     if (nonempty(lptr->lqhead)) {
         while ( (pid = getfirst(lptr->lqhead)) != EMPTY ) {
             proctab[pid].plockret = DELETED;

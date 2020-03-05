@@ -172,22 +172,22 @@ void test3 ()
         kprintf("-start reader A, then sleep 1s. reader A(prio 25) blocked on the lock\n");
         resume(rd1);
         sleep (1);
-	assert (getprio(wr1) == 25, "Test 3 failed");
+	assert (getprio(wr1) == 25, "Test 3 failed1");
 
         kprintf("-start reader B, then sleep 1s. reader B(prio 30) blocked on the lock\n");
         resume (rd2);
 	sleep (1);
-	assert (getprio(wr1) == 30, "Test 3 failed");
+	assert (getprio(wr1) == 30, "Test 3 failed2");
 	
 	kprintf("-kill reader B, then sleep 1s\n");
 	kill (rd2);
 	sleep (1);
-	assert (getprio(wr1) == 25, "Test 3 failed");
+	assert (getprio(wr1) == 25, "Test 3 failed3");
 
 	kprintf("-kill reader A, then sleep 1s\n");
 	kill (rd1);
 	sleep(1);
-	assert(getprio(wr1) == 20, "Test 3 failed");
+	assert(getprio(wr1) == 20, "Test 3 failed4");
 
         sleep (8);
         kprintf ("Test 3 OK\n");
@@ -376,7 +376,7 @@ void trelease(char msg, int slock1, int slock2, int xlock1, int lprio) {
                 }
         }
         kprintf("start releasing locks\n");
-        releasealllock(currpid);
+        releaseall(3, slock1, slock2, xlock1);
         for (lock = 0; lock < NLOCK; lock++) {
                 if (haslock(lock, currpid)) {
                         kprintf("lock: %d\n", lock);
@@ -425,22 +425,53 @@ void tkill(char msg, int slock1, int slock2, int xlock1, int lprio) {
                         kprintf("lock: %d\n", lock);
                 }
         }
-        sleep(5);
-        for (lock = 0; lock < NLOCK; lock++) {
-                if (haslock(lock, currpid)) {
-                        kprintf("lock: %d\n", lock);
-                }
-        }
+        sleep(3);
+        kprintf("wake up\n");
 }
 
 void testkill() {
-        int pid;
+        int pid, pid2;
         int slock1 = lcreate();
         int slock2 = lcreate();
         int xlock1 = lcreate();
+        pid2 = create(writer2, 2000, 20, "W", 3, 'W', xlock1, 20);
         pid = create(tkill, 2000, 20, "A", 5, 'A', slock1, slock2, xlock1, 20);
+        resume(pid2);
         resume(pid);
+        assert(proctab[pid].pstate == PRLWAIT, "fail"); 
+        assert(haslock(slock1/NLOCK, pid), "failed1");
+        assert(haslock(slock2/NLOCK, pid), "failed2");
+        assert(!haslock(xlock1/NLOCK, pid), "failed3");
         kill(pid);
+        assert(!haslock(slock1/NLOCK, pid), "failed1");
+        assert(!haslock(slock2/NLOCK, pid), "failed2");
+        assert(!haslock(xlock1/NLOCK, pid), "failed3");
+}
+
+void tdelete2(char msg, int slock, int prio) {
+        kprintf ("  %c: to acquire lock\n", msg);
+        int status = lock (slock, READ, prio);
+        if (status == OK) {
+                kprintf ("  %c: acquired lock, sleep 3s\n", msg);
+        } else if (status == SYSERR) {
+                kprintf("  %c: lock is invalid\n", msg);
+        } else if (status == DELETED) {
+                kprintf("  %c: lock is deleted\n", msg);
+        }
+        sleep(3);
+}
+
+void testdelete2() {
+        int pid;
+        int slock = lcreate();
+        pid = create(tdelete2, 2000, 20, "A", 3, 'A', slock, 20);
+        resume(pid);
+        ldelete(slock);
+        assert(!haslock(slock/NLOCK, pid), "failed");
+}
+
+void testkill2() {
+        int pid1, pid2, pid3;
 }
 
 int main( )
@@ -449,7 +480,9 @@ int main( )
          * The provided results do not guarantee your correctness.
          * You need to read the PA2 instruction carefully.
          */
-	testversion();
+        test1();
+        test2();
+	test3();
 	
 
         /* The hook to shutdown QEMU for process-like execution of XINU.

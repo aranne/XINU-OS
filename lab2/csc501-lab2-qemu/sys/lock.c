@@ -18,9 +18,15 @@ SYSCALL lock(int ldes, int type, int priority) {
     struct lentry *lptr;
     struct pentry *pptr;
 
-    int lock = ldes / NLOCK;
-    int version = ldes % NLOCK;
+    STATWORD ps;
+    disable(ps);
 
+    if (!validlock(ldes)) {
+        restore(ps);
+        return SYSERR;
+    }
+
+    int lock = ldes / NLOCK;
     int getlock = OK;
     if (type == READ) {
         if (!haslock(lock, currpid)) {
@@ -35,23 +41,20 @@ SYSCALL lock(int ldes, int type, int priority) {
         }
     }
     if (getlock == OK) {
+        restore(ps);
         return OK;
     } else if (getlock == DELETED){
+        restore(ps);
         return DELETED; 
     } else {
+        restore(ps);
         return SYSERR;
     }
 }
 
-int slock(int ldes, int priority) {
-    STATWORD ps;
+int slock(int ldes, int priority) {    
     struct	pentry	*pptr;
 
-    disable(ps);
-    if (!validlock(ldes)) {
-        restore(ps);
-        return SYSERR;
-    }
     int getlock;
     int lock = ldes / NLOCK;
     if (isidle(lock)) {
@@ -62,26 +65,18 @@ int slock(int ldes, int priority) {
         getlock = waitlock(ldes, priority, READ);
     }
     if (getlock) {
-        restore(ps);
         return OK;
     } else {
         pptr = &proctab[currpid];
         pptr->plockret = OK;
         resched();
-        restore(ps);
         return pptr->plockret;
     }
 }
 
 int xlock(int ldes, int priority) {
-    STATWORD ps;
     struct	pentry	*pptr;
 
-    disable(ps);
-    if (!validlock(ldes)) {
-        restore(ps);
-        return SYSERR;
-    }
     int getlock;
     int lock = ldes / NLOCK;
     if (!isidle(lock)) { // has gotten slock.
@@ -90,13 +85,11 @@ int xlock(int ldes, int priority) {
         getlock = acquirelock(lock, WRITE, currpid);
     }
     if (getlock) {
-        restore(ps);
         return OK;
     } else {
         pptr = &proctab[currpid];
         pptr->plockret = OK;
         resched();
-        restore(ps);
         return pptr->plockret;
     }
 }
@@ -110,6 +103,8 @@ int acquirelock(int lock, int type, int proc) {
     }  
     lptr->lprocs |= (1LL << proc);
     proctab[proc].plholds |= (1LL << lock);
+    updatemaxwaitprio(lock);
+    updateprio_holdinglocks(proc);
     return TRUE;
 }
 
@@ -128,6 +123,8 @@ int waitlock(int ldes, int priority, int type) {
     pptr->plbtime = time;
     pptr->pstate = PRLWAIT;
     insert(currpid, lptr->lqhead, priority);
+    updatemaxwaitprio(lock);
+    updateprio_heldprocs(lock);
     return FALSE;
 }
 

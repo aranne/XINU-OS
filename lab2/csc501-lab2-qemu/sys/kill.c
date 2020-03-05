@@ -44,20 +44,33 @@ SYSCALL kill(int pid)
 	switch (pptr->pstate) {
 
 	case PRCURR:	pptr->pstate = PRFREE;	/* suicide */
+			releasealllock(pid);
 			resched();
 
 	case PRWAIT:	semaph[pptr->psem].semcnt++;
-					/* fall through	*/
-	case PRLWAIT:   releasealllock(pid);
-					/* fall through	*/
+			dequeue(pid);
+			releasealllock(pid);
+			pptr->pstate = PRFREE;
+			break;
+	case PRLWAIT:   dequeue(pid);
+			if (validlock(pptr->plbid)) {
+				updatemaxwaitprio(pptr->plbid / NLOCK);
+				updateprio_heldprocs(pptr->plbid / NLOCK);
+			}
+			releasealllock(pid);
+			pptr->pstate = PRFREE;
+			break;
 	case PRREADY:	dequeue(pid);
+			releasealllock(pid);
 			pptr->pstate = PRFREE;
 			break;
 
 	case PRSLEEP:
 	case PRTRECV:	unsleep(pid);
 					/* fall through	*/
-	default:	pptr->pstate = PRFREE;
+	default:	
+			releasealllock(pid);
+			pptr->pstate = PRFREE;
 	}
 	restore(ps);
 	return(OK);

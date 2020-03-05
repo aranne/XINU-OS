@@ -22,7 +22,7 @@ SYSCALL releaseall (int numlocks, int ldes1, ...) {
             continue;
         }
         lptr = &locktab[lock];
-        releaselock(lock);
+        releaselock(lock, currpid);
         if (isotherread(lock)) {
             lptr->lockcnt--;
         } else {
@@ -41,10 +41,11 @@ SYSCALL releaseall (int numlocks, int ldes1, ...) {
 }
 
 
-void releaselock(int lock) {
+void releaselock(int lock, int pid) {
     struct lentry *lptr = &locktab[lock];
-    lptr->lprocs &= ~(1LL << currpid);
-    proctab[currpid].plholds &= ~(1LL << lock);
+    lptr->lprocs &= ~(1LL << pid);
+    proctab[pid].plholds &= ~(1LL << lock);
+    updateprio_holdinglocks(pid);
 }
 
 int assignnext(int lock) {
@@ -81,14 +82,46 @@ int assignnext(int lock) {
     return TRUE;
 }
 
+/* here's a fault in design */
+/* we cannot prevent release invalid lock */
+/* because we only store lockid in proctab[], rather than ldes */
 SYSCALL releasealllock(int proc) {
     STATWORD ps;
     disable(ps);
     int lock;
     for (lock = 0; lock < NLOCK; lock++) {
         if (haslock(lock, proc)) {
-            releaseall(1, lock * NLOCK + locktab[lock].lversion);
+            releaseone(proc, lock * NLOCK + locktab[lock].lversion);
         }
+    }
+    restore(ps);
+    return OK;
+}
+
+int releaseone(int pid, int ldes) {
+    int lock;
+    struct lentry *lptr;
+
+    STATWORD ps;
+    disable(ps);
+    int needresch = FALSE;
+    lock = ldes / NLOCK;
+    if (!validlock(ldes) || !haslock(lock, pid)) {
+        return SYSERR;
+    }
+    lptr = &locktab[lock];
+    releaselock(lock, pid);
+    if (isotherread(lock)) {
+        lptr->lockcnt--;
+    } else {
+        lptr->lockcnt = 0;
+        int assign = assignnext(lock);
+        if (assign) {
+            needresch = TRUE;
+        }
+    }
+    if (needresch) {
+        resched();
     }
     restore(ps);
     return OK;

@@ -470,8 +470,182 @@ void testdelete2() {
         assert(!haslock(slock/NLOCK, pid), "failed");
 }
 
-void testkill2() {
-        int pid1, pid2, pid3;
+/*----------------------------------Test 4---------------------------*/
+void reader4 (char *msg, int lck)
+{
+        int     ret;
+
+        kprintf ("  %s: to acquire lock\n", msg);
+        lock (lck, READ, DEFAULT_LOCK_PRIO);
+        kprintf ("  %s: acquired lock\n", msg);
+        kprintf ("  %s: to release lock\n", msg);
+        releaseall (1, lck);
+}
+void reader41 (char *msg, int lck, int lck2)
+{
+        int     ret;
+        kprintf ("  %s: to acquire lock2\n", msg);
+        int status = lock (lck2, WRITE, DEFAULT_LOCK_PRIO);
+        if (status == OK) kprintf ("  %s: acquired lock2\n", msg);
+        if (status == SYSERR) kprintf("  %s: cannot get lock2\n", msg);
+        kprintf ("  %s: to acquire lock\n", msg);
+        lock (lck, READ, DEFAULT_LOCK_PRIO);
+        kprintf ("  %s: acquired lock\n", msg);
+        sleep(5);
+        kprintf ("  %s: to release lock & lock2\n", msg);
+        releaseall (2, lck, lck2);
+}
+
+void writer4 (char *msg, int lck)
+{
+        kprintf ("  %s: to acquire lock\n", msg);
+        lock (lck, WRITE, DEFAULT_LOCK_PRIO);
+        kprintf ("  %s: acquired lock, sleep 10s\n", msg);
+        sleep (10);
+        kprintf ("  %s: to release lock\n", msg);
+        releaseall (1, lck);
+}
+
+void test4 ()
+{
+        int     lck, lck2;
+        int     rd1, rd2;
+        int     wr1;
+
+        kprintf("\nTest 4: test the basic priority inheritence\n");
+        lck  = lcreate ();
+        lck2 = lcreate();
+        assert (lck != SYSERR, "Test 4 failed");
+
+        rd1 = create(reader41, 2000, 20, "reader4", 3, "reader A", lck, lck2);
+        rd2 = create(reader4, 2000, 30, "reader4", 2, "reader B", lck2);
+        wr1 = create(writer4, 2000, 25, "writer4", 2, "writer", lck);
+
+        kprintf("-start writer, then sleep 1s. lock granted to write (prio 20)\n");
+        resume(wr1);
+        sleep (1);
+
+        kprintf("-start reader A, then sleep 1s. reader A(prio 25) blocked on the lock\n");
+        resume(rd1);
+        sleep (1);
+	assert (getprio(wr1) == 25, "Test 4 failed1");
+
+        kprintf("-start reader B, then sleep 1s. reader B(prio 30) blocked on the lock\n");
+        assert(haslock(lck2/NLOCK, rd1), "fail!!!");
+        resume (rd2);
+	sleep (1);
+        assert (getprio(rd1) == 30, "Test 4 failed22");
+	assert (getprio(wr1) == 30, "Test 4 failed2");
+	
+	kprintf("-kill writer, then sleep 1s\n");
+        assert (proctab[wr1].pstate == PRSLEEP, "failed???");
+	kill (wr1);
+	sleep (1);
+	assert (getprio(rd1) == 30, "Test 4 failed3");
+
+	kprintf("-kill reader B, then sleep 1s\n");
+	kill (rd2);
+	sleep(1);
+	assert(getprio(rd1) == 20, "Test 4 failed4");
+
+        sleep (8);
+        kprintf ("Test 4 OK\n");
+}
+
+/*----------------------------------Test 4---------------------------*/
+void reader5 (char *msg, int lck)
+{
+        int     ret;
+
+        kprintf ("  %s: to acquire lock\n", msg);
+        lock (lck, READ, DEFAULT_LOCK_PRIO);
+        kprintf ("  %s: acquired lock\n", msg);
+        kprintf ("  %s: to release lock\n", msg);
+        releaseall (1, lck);
+}
+void reader51 (char *msg, int lck, int lck2)
+{
+        int     ret;
+        kprintf ("  %s: to acquire lock2\n", msg);
+        int status = lock (lck2, WRITE, DEFAULT_LOCK_PRIO);
+        if (status == OK) kprintf ("  %s: acquired lock2\n", msg);
+        if (status == SYSERR) kprintf("  %s: cannot get lock2\n", msg);
+        kprintf ("  %s: to acquire lock\n", msg);
+        lock (lck, WRITE, DEFAULT_LOCK_PRIO);
+        kprintf ("  %s: acquired lock\n", msg);
+        sleep(5);
+        kprintf ("  %s: to release lock & lock2\n", msg);
+        releaseall (2, lck, lck2);
+}
+
+void writer5 (char *msg, int lck)
+{
+        kprintf ("  %s: to acquire lock\n", msg);
+        lock (lck, WRITE, DEFAULT_LOCK_PRIO);
+        kprintf ("  %s: acquired lock, sleep 10s\n", msg);
+        sleep (10);
+        kprintf ("  %s: to release lock\n", msg);
+        releaseall (1, lck);
+}
+
+void test5 ()
+{
+        int     lck, lck2;
+        int     rd1, rd2, rd3;
+        int     wr1;
+
+        kprintf("\nTest 5: test the basic priority inheritence\n");
+        lck  = lcreate ();
+        lck2 = lcreate();
+        assert (lck != SYSERR, "Test 5 failed");
+
+        rd1 = create(reader51, 2000, 10, "reader5", 3, "reader A", lck, lck2);
+        rd2 = create(reader5, 2000, 30, "reader5", 2, "reader B", lck2);
+        wr1 = create(writer5, 2000, 20, "writer5", 2, "writer", lck);
+        rd3 = create(reader5, 2000, 40, "reader5", 2, "reader C", lck);
+
+        kprintf("-start writer, then sleep 1s. lock granted to write (prio 20)\n");
+        resume(wr1);
+        sleep (1);
+
+        kprintf("-start reader A, then sleep 1s. reader A(prio 10) blocked on the lock\n");
+        resume(rd1);
+        sleep (1);
+	assert (getprio(wr1) == 20, "Test 5 failed1");
+        assert  (getprio(rd1) == 10, "fail----");
+
+        kprintf("-start reader B, then sleep 1s. reader B(prio 30) blocked on the lock\n");
+        assert(haslock(lck2/NLOCK, rd1), "fail!!!");
+        resume (rd2);
+	sleep (1);
+        assert (getprio(rd1) == 30, "Test 5 failed22");
+	assert (getprio(wr1) == 30, "Test 5 failed2");
+
+        kprintf("-start reader C, then sleep 1s. reader C(prio 40) blocked on the lock\n");
+        resume(rd3);
+        sleep(1);
+        assert (getprio(wr1) == 40, "Test 5 failed33");
+        assert (getprio(rd1) == 30, "Test 5 failed34");
+	
+	kprintf("-kill writer, then sleep 1s\n");
+        assert (proctab[wr1].pstate == PRSLEEP, "failed???");
+	kill (wr1);
+	sleep (1);
+        assert (haslock(lck/NLOCK, rd1), "Pass lck failed");
+	assert (getprio(rd1) == 40, "Test 5 failed3");
+
+        kprintf("-kill rd3, then sleep 1s\n");
+        kill(rd3);
+        sleep(1);
+        assert(getprio(rd1) == 30, "Test 5 failed44");
+
+	kprintf("-kill reader B, then sleep 1s\n");
+	kill (rd2);
+	sleep(1);
+	assert(getprio(rd1) == 10, "Test 5 failed4");
+
+        sleep (8);
+        kprintf ("Test 5 OK\n");
 }
 
 int main( )
@@ -482,7 +656,9 @@ int main( )
          */
         test1();
         test2();
-	test3();
+        test3();
+        test4();
+        test5();
 	
 
         /* The hook to shutdown QEMU for process-like execution of XINU.

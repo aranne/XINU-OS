@@ -50,6 +50,10 @@ void updateprio_heldprocs(int lock);             /* increase priority of process
 void updatemaxwaitprio(int lock);                    /* find the max priority of processes waiting for the lock */
 void updateprio_holdinglocks(int pid);                     /* find max wait priority of locks holding by process pid */ 
 
+/* for test */
+void testlock(void);
+void testsem(void);
+
 #define isbadlock(l) (l<0 || l>=NLOCK)
 #define isidle(l) (locktab[(l)].lockcnt == 0)
 #define isread(l) (locktab[(l)].lockcnt > 0)

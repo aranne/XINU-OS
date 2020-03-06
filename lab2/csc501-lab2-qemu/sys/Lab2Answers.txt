@@ -1,0 +1,66 @@
+1. The priority inversion problem could cause that a higher-priority process needs to wait for the completion of a lower-priority process.
+     1. Priority inheritance is one approach to address this issue. 
+        Please give another approach and briefly describe its idea.
+        
+        We could use Random boosting protocol, which is used by Microsoft Windows.
+        When priority inversion happens, the ready processes(lower-priority) holding locks will be randomly boosted in priority until they release
+        locks and exit its critical section. So higher-priority process blocked by lower-priority processes will not wait too long to get recources.
+
+        References from wikipedia: 
+        https://en.wikipedia.org/wiki/Priority_inversion
+        https://en.wikipedia.org/wiki/Random_boosting
+
+     2. Design a test case to show that your approach can address the priority inversion problem. 
+        You should compare the results that derived from the original XINU implementation (use semaphore) 
+        and that derived from your implementation (use readers/writer locks). Put your results in Lab2Answers.txt 
+        and your test case program (name it task1.c) in both ./sys and ./TMP
+
+        Test case: 
+        There are process A with priority(10), process B with priority(20), process C with priority(30).
+        Process A(10) and C(30) both want to grab a recource, but process C(30) is blocked by process A(10).
+        Process B(20) will do some long time task and blocked process A(10) so priority inversion happens.
+        
+      *******************  test for semaphore ******************
+
+         Test on semaphore.
+         A & C try to grab mutex, C(30) is blocked by A(10)
+         B is doing long time job, A(10) is blocked by B(20)
+         -start A(10), then sleep 1s. mutex granted to A
+         A: to acquire mutex
+         A: acquired mutex, sleep 3s
+         -start C(30), then sleep 1s. C waits for mutex
+         C: to acquire mutex
+         -start B(20), B will do a long time job
+         B: to start long time job
+         B: finished long time job
+         A: to release mutex
+         C: acquired mutex, sleep 3s
+         C: to release mutex
+
+      As we can see, C(30) is blocked by A(10), and blocked by B(20).
+
+      ******************  test for lock  ************************
+
+         Test on lock.
+         A & C try to grab lock, C(30) is blocked by A(10)
+         B is doing long time job
+         Priority inheritance will boost A(10) to A(30), A(30) will not blocked by B(20)
+         -start A(10), then sleep 1s. lock granted to A
+         A: to acquire lock
+         A: acquired lock, sleep 3s
+         -start C(30), then sleep 1s. C waits for lock
+         C: to acquire lock
+         -start B(20), B will do a long time job
+         B: to start long time job
+         A: to release lock
+         C: acquired lock, sleep 3s
+         C: to release lock
+         B: finished long time job
+
+      As we can see, A(10) is boosted to A(30), and isn't blocked by B(20).
+
+2. Synchronization is a quite complex issue in operating systems. To show your understanding about
+   process synchronization, you are asked to point out a potential problem in this pesudo-code. 
+   Multiple reader processes can execute this code concurrently by calling reader(). 
+   You are asked to describe an issue it may cause and why it can happen. Put your answer in Lab2Answers.txt mentioned above.
+

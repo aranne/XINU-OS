@@ -63,7 +63,7 @@ void test1 ()
 }
 
 /*----------------------------------Test 2---------------------------*/
-char output2[10];
+char output2[15];
 int count2;
 void reader2 (char msg, int lck, int lprio)
 {
@@ -191,6 +191,48 @@ void test3 ()
 
         sleep (8);
         kprintf ("Test 3 OK\n");
+}
+
+void testlckorder ()
+{
+        count2 = 0;
+        int     lck;
+        int     rd1, rd2, rd3, rd4;
+        int     wr1, wr;
+
+        lck  = lcreate ();
+        assert (lck != SYSERR, "Test 2 failed");
+
+        wr = create(writer2, 2000, 20, "w", 3, 'w', lck, 10);
+	rd1 = create(reader2, 2000, 20, "A", 3, 'A', lck, 20);
+	rd2 = create(reader2, 2000, 20, "B", 3, 'B', lck, 25);
+	rd3 = create(reader2, 2000, 20, "C", 3, 'C', lck, 25);
+	rd4 = create(reader2, 2000, 20, "D", 3, 'D', lck, 30);
+        wr1 = create(writer2, 2000, 20, "W", 3, 'W', lck, 25);
+
+        kprintf("-start writer w, then sleep 1s. lock granted to writer w\n");
+        resume(wr);
+        sleep (1);
+	
+        kprintf("-start reader A. reader A waits for lock\n");
+        resume(rd1);
+
+        kprintf("-start writer W, sleep 0.4s. writer W waits for the lock\n");
+        resume(wr1);
+        sleep10(4);
+
+        kprintf("-start reader B, C, D.\n");
+        resume (rd2);
+        sleep10(6);
+	resume (rd3);
+        sleep10(5);
+	resume (rd4);
+        printqueue(locktab[lck/NLOCK].lqtail);
+
+        sleep (15);
+        kprintf("output=%s\n", output2);
+        assert(mystrncmp(output2,"wwDBBDWWCAAC",12)==0,"Test 2 FAILED\n");
+        kprintf ("Test assign_lock_order OK\n");
 }
 
 void testinit() {
@@ -659,13 +701,14 @@ int main( )
         // test3();
         // test4();
         // test5();
-	testsem();
+        // testlckorder();
+        testsem();
         testlock();
 
         /* The hook to shutdown QEMU for process-like execution of XINU.
          * This API call exists the QEMU process.
          */
-        // shutdown();
+        shutdown();
 }
 
 

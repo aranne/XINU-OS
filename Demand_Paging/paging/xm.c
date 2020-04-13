@@ -12,8 +12,10 @@
  */
 SYSCALL xmmap(int virtpage, bsd_t source, int npages)
 {
-  kprintf("xmmap - to be implemented!\n");
-  return SYSERR;
+  if (virtpage < 0 || isbadbs(source) || npages < 0) {
+    return SYSERR;
+  } 
+  return bsm_map(currpid, virtpage, source, npages, 0);
 }
 
 
@@ -24,6 +26,8 @@ SYSCALL xmmap(int virtpage, bsd_t source, int npages)
  */
 SYSCALL xmunmap(int virtpage)
 {
-  kprintf("To be implemented!");
-  return SYSERR;
+  if (virtpage < 0) {
+    return SYSERR;
+  }
+  return bsm_unmap(currpid, virtpage, 0);
 }

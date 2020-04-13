@@ -66,17 +66,18 @@ struct	pentry	{
 	int	ppagedev;		/* pageing dgram device		*/
 	int	pwaitret;
 
-/* for process scheduling*/
-        int     ppolicy;                /* process scheduling policy    */
-        int     ppi;                    /* priority value in psp        */
-        int     prate;                  /* rate value in psp            */
+    /* for process scheduling*/
+    int     ppolicy;                /* process scheduling policy    */
+    int     ppi;                    /* priority value in psp        */
+    int     prate;                  /* rate value in psp            */
 
-/* for demand paging */
-        unsigned long pdbr;             /* PDBR                         */
-        int     store;                  /* backing store for vheap      */
-        int     vhpno;                  /* starting pageno for vheap    */
-        int     vhpnpages;              /* vheap size                   */
-        struct mblock *vmemlist;        /* vheap list              	*/
+    /* for demand paging */
+    unsigned long pdbr;             /* PDBR                         */
+	int     hasvhp;                  /* using vheap or not           */
+    int     store;                  /* backing store for vheap      */
+    int     vhpno;                  /* starting pageno for vheap    */
+    int     vhpnpages;              /* vheap size                   */
+    struct mblock *vmemlist;        /* vheap list              	*/
 };
 
 

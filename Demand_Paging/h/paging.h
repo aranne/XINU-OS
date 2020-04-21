@@ -58,11 +58,11 @@ typedef struct{
 
 typedef struct{
   int fr_status;			/* MAPPED or UNMAPPED		*/
-  int fr_pid;				/* process id using this frame  */
-  int fr_vpno;				/* corresponding virtual page no*/
-  int fr_refcnt;			/* reference count for page table */
+  int fr_pid;				/* process id using this frame: for FR_DIR & FR_PAGE */
+  int fr_vpno;				/* corresponding virtual page no: for FR_PAGE */
+  int fr_refcnt;			/* reference count: for FR_TBL */
   int fr_type;				/* FR_DIR, FR_TBL, FR_PAGE	*/
-  int fr_dirty;       /* 1--dirty, 0--not dirty */
+  int fr_dirty;       /* 1--dirty, 0--not dirty: for FR_PAGE */
 }fr_map_t;
 
 extern bs_map_t bsm_tab[];
@@ -83,9 +83,24 @@ int write_bs(char *src, bsd_t bs_id, int page);
 SYSCALL init_bsm(void);
 SYSCALL get_bsm(int* avail);
 SYSCALL free_bsm(int i);
-SYSCALL bsm_lookup(int pid, long vaddr, int* store, int* pageth);
+SYSCALL bsm_lookup(int pid, int vpno, int* store, int* pageth);
 SYSCALL bsm_map(int pid, int vpno, int source, int npages, int flag);
-SYSCALL bsm_unmap(int pid, int vpno, int flag);
+SYSCALL bsm_unmap(int pid, int vpno);
+
+/* given calls for dealing with frame mapping */
+SYSCALL init_frm();
+SYSCALL get_frm(int* avail);
+SYSCALL free_frm(int pid, int frmno, int store, int pageth);
+SYSCALL lookup_frm(int pid, int vpno, int* frmno);
+SYSCALL clear_frm(int i);
+char* getaddr_frm(int frmno);
+
+/* given calls for dealing with paging */
+SYSCALL create_pd(int pid);
+SYSCALL set_globe_ptbls(void);
+SYSCALL create_pt(int pid, int frame);
+
+#define IVNPF  14   /* page fault interrupt vector number */ 
 
 #define NBPG		4096	/* number of bytes per page	*/
 #define FRAME0		1024	/* zero-th frame		*/
@@ -93,6 +108,10 @@ SYSCALL bsm_unmap(int pid, int vpno, int flag);
 
 #define NBS       16    /* number of backing stores */
 #define MNBSPG    128   /* max number of pages in a backing store */
+
+#define NGPTBL    4      /* number of global page tables */
+#define NPTBL     1024  /* max number of page tables in a directory */
+#define NPAGE     1024   /* number of pages in a page table */
 
 /* for create() or vcreate() process */
 #define HASVIRTUALHEAP 1
@@ -115,5 +134,9 @@ SYSCALL bsm_unmap(int pid, int vpno, int flag);
 #define BACKING_STORE_BASE	0x00800000
 #define BACKING_STORE_UNIT_SIZE 0x00080000
 
+#define FRAME_BASE 0x00400000
+#define FRAME_UNIT_SIZE 0x00001000
+
 #define isbadbs(id) (id<0 || id>=NBS)
 #define isbadfrm(id) (id<0 || id>=NFRAMES)
+#define isglobaltbl(id) (id==1025 || id==1026 || id==1027 || id==1028)

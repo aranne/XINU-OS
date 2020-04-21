@@ -13,6 +13,9 @@ bs_map_t bsm_tab[NBS];
  */
 SYSCALL init_bsm()
 {
+    STATWORD ps;
+    disable(ps);
+
     bs_map_t *bsm;
     bs_vp_t *bsvp;
     int i;
@@ -28,6 +31,8 @@ SYSCALL init_bsm()
         bsm->size = 0;
         bsm->bs_sem = 0;
     }
+
+    restore(ps);
     return OK;
 }
 
@@ -37,13 +42,18 @@ SYSCALL init_bsm()
  */
 SYSCALL get_bsm(int* avail)
 {
+    STATWORD ps;
+    disable(ps);
+
     int i;
     for (i = 0; i < NBS; i++) {
         if (bsm_tab[i].bs_status == BSM_UNMAPPED) {
             *avail = i;
+            restore(ps);
             return OK;
         }
     }
+    restore(ps);
     return SYSERR;
 }
 
@@ -54,8 +64,13 @@ SYSCALL get_bsm(int* avail)
  */
 SYSCALL free_bsm(int i)
 {
-    if (isbadbs(i)) 
+    STATWORD ps;
+    disable(ps);
+
+    if (isbadbs(i)) {
+        restore(ps);
         return SYSERR;
+    }
     bs_map_t *bsm = &bsm_tab[i];
     bs_vp_t *bsvp, *next;
     bsvp = bsm->bs_vp;
@@ -68,6 +83,8 @@ SYSCALL free_bsm(int i)
     bsm->bs_vp = bsvp;
     bsm->size = 0;
     bsm->bs_sem = 0;
+
+    restore(ps);
     return OK;
 }
 
@@ -75,12 +92,15 @@ SYSCALL free_bsm(int i)
  * bsm_lookup - lookup bsm_tab and find the corresponding entry
  *-------------------------------------------------------------------------
  */
-SYSCALL bsm_lookup(int pid, long vaddr, int* store, int* pageth)
+SYSCALL bsm_lookup(int pid, int vpno, int* store, int* pageth)
 {
-    if (isbadpid(pid) || vaddr < 0 || vaddr % NBPG != 0) {
+    STATWORD ps;
+    disable(ps);
+
+    if (isbadpid(pid) || vpno < 0) {
+        restore(ps);
         return SYSERR;
     }
-    int vp_no = vaddr / NBPG;
     bs_map_t *bsm;
     bs_vp_t *bsvp;
     int i;
@@ -88,14 +108,16 @@ SYSCALL bsm_lookup(int pid, long vaddr, int* store, int* pageth)
         bsm = &bsm_tab[i];
         bsvp = bsm->bs_vp;
         while (bsvp->bs_pid != -1) {
-            if (bsvp->bs_pid == pid && vp_no >= bsvp->bs_vpno && vp_no < bsvp->bs_vpno + bsvp->bs_npages) {
+            if (bsvp->bs_pid == pid && vpno >= bsvp->bs_vpno && vpno < bsvp->bs_vpno + bsvp->bs_npages) {
                 *store = i;
-                *pageth = vp_no - bsvp->bs_vpno;
+                *pageth = vpno - bsvp->bs_vpno;
+                restore(ps);
                 return OK;
             }
             bsvp = bsvp->nextvp;
         }
     }
+    restore(ps);
     return SYSERR;
 }
 
@@ -107,13 +129,18 @@ SYSCALL bsm_lookup(int pid, long vaddr, int* store, int* pageth)
  */
 SYSCALL bsm_map(int pid, int vpno, int source, int npages, int flag)
 {
+    STATWORD ps;
+    disable(ps);
+
     if (isbadbs(source) || isbadpid(pid) || vpno < 0 || npages < 0) {
+        restore(ps);
         return SYSERR;
     }
     bs_map_t *bsm = &bsm_tab[source];
     bs_vp_t *bsvp;
     int max_pages = get_bs(source, npages);
     if (max_pages < npages) {
+        restore(ps);
         return SYSERR;
     }
     if (bsm->bs_status == BSM_UNMAPPED) {
@@ -129,6 +156,7 @@ SYSCALL bsm_map(int pid, int vpno, int source, int npages, int flag)
         bsvp->nextvp = bsm->bs_vp;
         bsm->bs_vp = bsvp;
         bsm->size = npages;
+        restore(ps);
         return OK;
     } else if (bsm->bs_status == BSM_SHARED) {
         bsvp = (bs_vp_t*) getmem(sizeof(bs_vp_t));
@@ -137,8 +165,10 @@ SYSCALL bsm_map(int pid, int vpno, int source, int npages, int flag)
         bsvp->bs_npages = npages;
         bsvp->nextvp = bsm->bs_vp;
         bsm->bs_vp = bsvp;
+        restore(ps);
         return OK;
     } else {
+        restore(ps);
         return SYSERR;
     }
 }
@@ -150,23 +180,41 @@ SYSCALL bsm_map(int pid, int vpno, int source, int npages, int flag)
  *       flag: 1--private, 0--shared
  *-------------------------------------------------------------------------
  */
-SYSCALL bsm_unmap(int pid, int vpno, int flag)
+SYSCALL bsm_unmap(int pid, int vpno)
 {
+    STATWORD ps;
+    disable(ps);
+
     if (isbadpid(pid) || vpno < 0) {
+        restore(ps);
         return SYSERR;
     }
     bs_map_t *bsm;
     bs_vp_t *bsvp, *prev;
     int store, pageth;
-    bsm_lookup(pid, vpno * NBPG, &store, &pageth);
+    int frmno;
+    if (bsm_lookup(pid, vpno, &store, &pageth) == SYSERR) {
+        restore(ps);
+        return SYSERR;
+    }
     bsm = &bsm_tab[store];
-    if (flag == 1 && bsm->bs_status == BSM_PRIVATE) {
+    if (bsm->bs_status == BSM_PRIVATE) {
         release_bs(store);
-    } else if (flag == 0 && bsm->bs_status == BSM_SHARED) {
+        restore(ps);
+        return OK;
+    } else if (bsm->bs_status == BSM_SHARED) {
         prev = NULL;
         bsvp = bsm->bs_vp;
         while(bsvp->bs_pid != -1) {
-            if (bsvp->bs_pid == pid) {
+            if (bsvp->bs_pid == pid && vpno == bsvp->bs_vpno) {
+                int vp = bsvp->bs_vpno;
+                int i;
+                for (i = 0; i < bsvp->bs_npages; i++) {
+                    if (lookup_frm(pid, vp, &frmno) == OK) {
+                        free_frm(pid, frmno, store, i);
+                    }
+                    vp++;
+                }
                 if (prev != NULL) {
                     prev->nextvp = bsvp->nextvp;
                     freemem((struct mblock*)bsvp, sizeof(bs_vp_t));
@@ -182,9 +230,14 @@ SYSCALL bsm_unmap(int pid, int vpno, int flag)
                 bsvp = prev->nextvp;
             }
         }
+        release_bs(store);
+        restore(ps);
+        return OK;
     } else if (bsm->bs_status == BSM_UNMAPPED) {
+        restore(ps);
         return OK;
     } else {
+        restore(ps);
         return SYSERR;
     }
 }

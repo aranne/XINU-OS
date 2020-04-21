@@ -29,5 +29,5 @@ SYSCALL xmunmap(int virtpage)
   if (virtpage < 0) {
     return SYSERR;
   }
-  return bsm_unmap(currpid, virtpage, 0);
+  return bsm_unmap(currpid, virtpage);
 }

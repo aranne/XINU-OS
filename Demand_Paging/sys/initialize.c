@@ -211,6 +211,20 @@ sysinit()
 
 	rdytail = 1 + (rdyhead=newqueue());/* initialize ready list */
 
+	/* initial backing stores */
+	init_bsm();
+	/* initial frames */
+	init_frm();
+	/* page table for null process */
+	create_pd(NULLPROC);
+	/* global page tables for first 16M memory */
+	set_globe_ptbls();
+	/* store nullproc's PDBR */
+	write_cr3(pptr->pdbr);
+	/* install page fault ISR */
+	set_evec(IVNPF, pfintr);
+	// enable paging
+	enable_paging();
 
 	return(OK);
 }

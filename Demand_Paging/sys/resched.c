@@ -83,6 +83,9 @@ int	resched()
 	PrintSaved(nptr);
 #endif
 	
+	/* change PDBR for new process */
+	write_cr3(nptr->pdbr);
+
 	ctxsw(&optr->pesp, optr->pirmask, &nptr->pesp, nptr->pirmask);
 
 #ifdef	DEBUG

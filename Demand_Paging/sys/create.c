@@ -69,6 +69,7 @@ SYSCALL create(procaddr,ssize,priority,name,nargs,args)
 
 	/* for demand paging */
 	pptr->hasvhp = NOVIRTUALHEAP;
+	create_pd(pid);
 
 		/* Bottom of stack */
 	*saddr = MAGIC;

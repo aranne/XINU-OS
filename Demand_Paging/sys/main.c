@@ -138,6 +138,25 @@ void test_kill(char *msg, int lck) {
 	kprintf("Value in backing store:%d\n", *(a+1));
 }
 
+void test_invlpg(char *msg, int addr) {
+	get_bs(1, 100);
+	xmmap(6000, 1, 50);
+	printpgs();
+	int *a = 6000 * NBPG;
+	*a = 1000;
+	int *s = BACKING_STORE_BASE + 1 * BACKING_STORE_UNIT_SIZE;
+	kprintf("Value: %d\n", *a);
+	kprintf("Store value: %d\n", *s);
+	printbs();
+	printpgs();
+	kprintf("Free frame\n");
+	free_frm(currpid, 8, 1, 0);
+	printbs();
+	printpgs();
+	kprintf("Store value: %d\n", *s);
+	kprintf("Value: %d\n", *a);
+}
+
 int main() {
 	int pid1;
 	int pid2;
@@ -158,7 +177,7 @@ int main() {
 	// resume(pid1);
 	// sleep(3);
 
-	// kprintf("\n1: test kill\n");
+	// kprintf("\n4: test kill\n");
 	// pid1 = create(test_kill, 2000, 30, "test_kill", 0, NULL);
 	// resume(pid1);
 	// kprintf("Killing %d\n", pid1);
@@ -167,6 +186,11 @@ int main() {
 	// printdirs();
 	// printtbls();
 	// printpgs();
+
+	kprintf("\n5: test invlpg\n");
+	pid1 = create(test_invlpg, 2000, 30, "test_invlpg", 0, NULL);
+	resume(pid1);
+	sleep(3);
 
 	shutdown();
 }

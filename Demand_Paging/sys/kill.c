@@ -90,10 +90,6 @@ SYSCALL kill(int pid)
 
 	/* free process directory */
 	unsigned long pdbr = proctab[pid].pdbr;
-	if (pdbr % NBPG != 0) {
-		restore(ps);
-		return SYSERR;
-	}
 	int frmno = pdbr / NBPG - FRAME0;
 	if (free_frm(pid, frmno, -1, -1) == SYSERR ) {
 		restore(ps);

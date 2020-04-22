@@ -78,7 +78,7 @@ SYSCALL free_frm(int pid, int frmno, int store, int pageth)
       }
       ptt->pt_pres = 0;
       if (currpid == pid) {
-        // invlpg(addr);
+        write_cr3(proctab[pid].pdbr);  // flash TLB entry
       }
       int tblfrmno = pdt->pd_base - FRAME0;
       fr_map_t *tblfrm = &frm_tab[tblfrmno];

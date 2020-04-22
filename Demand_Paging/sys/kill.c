@@ -7,6 +7,7 @@
 #include <mem.h>
 #include <io.h>
 #include <q.h>
+#include <paging.h>
 #include <stdio.h>
 
 /*------------------------------------------------------------------------
@@ -40,6 +41,65 @@ SYSCALL kill(int pid)
 	send(pptr->pnxtkin, pid);
 
 	freestk(pptr->pbase, pptr->pstklen);
+
+	/* for demand paging */
+	/* free all frames */
+	fr_map_t *frm;
+	int i;
+	for (i = 0; i < NFRAMES; i++) {
+		frm = &frm_tab[i];
+		if (frm->fr_status == FRM_MAPPED && frm->fr_type == FR_PAGE && frm->fr_pid == pid) {
+			int vp = frm->fr_vpno;
+			int store, pageth;
+			if (bsm_lookup(pid, vp, &store, &pageth) == OK) {
+				free_frm(pid, i, store, pageth);
+			} else {
+				clear_frm(i);
+			}
+		}
+	}
+
+	/* free all backing stores */
+	bs_map_t *bsm;
+	bs_vp_t *bsvp, *prev;
+	for (i = 0; i < NBS; i++) {
+		bsm = &bsm_tab[i];
+		if (bsm->bs_status != BSM_UNMAPPED) {
+			prev = NULL;
+			bsvp = bsm->bs_vp;
+			while (bsvp->bs_pid != -1) {
+				if (bsvp->bs_pid == pid) {
+					if (prev != NULL) {
+						prev->nextvp = bsvp->nextvp;
+						freemem((struct mblock *)bsvp, sizeof(bs_vp_t));
+						bsvp = prev->nextvp;
+					} else {
+						bs_vp_t *next = bsvp->nextvp;
+						freemem((struct mblock *)bsvp, sizeof(bs_vp_t));
+						bsm->bs_vp = next;
+						bsvp = next;
+					}
+				} else {
+					prev = bsvp;
+					bsvp = prev->nextvp;
+				}
+			}
+			release_bs(i);
+		}
+	}
+
+	/* free process directory */
+	unsigned long pdbr = proctab[pid].pdbr;
+	if (pdbr % NBPG != 0) {
+		restore(ps);
+		return SYSERR;
+	}
+	int frmno = pdbr / NBPG - FRAME0;
+	if (free_frm(pid, frmno, -1, -1) == SYSERR ) {
+		restore(ps);
+		return SYSERR;
+	}
+
 	switch (pptr->pstate) {
 
 	case PRCURR:	pptr->pstate = PRFREE;	/* suicide */

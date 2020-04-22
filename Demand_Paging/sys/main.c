@@ -35,27 +35,23 @@ void proc1_test1(char *msg, int lck) {
 		kprintf("0x%08x: %c\n", addr + i * NBPG, *(addr + i * NBPG));
 	}
 
-	int vp = PROC1_VPNO;
-	int frmno;
-	fr_map_t *frm;
-	for (i = 0; i < 26; i++) {
-			if (lookup_frm(currpid, vp, &frmno) == OK) {
-					frm = &frm_tab[frmno];
-					kprintf("id:%d %d\n", frmno, frm->fr_vpno);
-			}
-			vp++;
-	}
+	int *s = BACKING_STORE_BASE + 1 * BACKING_STORE_UNIT_SIZE + 25 * NBPG;
+	kprintf("Store value:%c\n", *s);
+
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
 
 	xmunmap(PROC1_VPNO);
 
-	kprintf("Search frames\n");
-	for (i = 0; i < 26; i++) {
-			if (lookup_frm(currpid, vp, &frmno) == OK) {
-					frm = &frm_tab[frmno];
-					kprintf("id:%d %d\n", frmno, frm->fr_type);
-			}
-			vp++;
-	}
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
+
+	s = BACKING_STORE_BASE + 1 * BACKING_STORE_UNIT_SIZE + 25 * NBPG;
+	kprintf("Store value:%c\n", *s);
 
 	return;
 }
@@ -67,16 +63,6 @@ void proc1_test2(char *msg, int lck) {
 	kprintf("heap allocated at 0x%x\n", x);
 	*x = 150;
 	*(x + 10) = 200;
-
-	int frmno;
-	unsigned long addr = x;
-	virt_addr_t *vaddr;
-	vaddr->pd_offset = (addr >> 22) & 0x3FF;
-	vaddr->pt_offset = (addr >> 12) & 0x3FF;
-	vaddr->pg_offset = addr & 0xFFF;
-
-	pd_t *pdt = proctab[currpid].pdbr + vaddr->pd_offset * sizeof(pd_t);
-  	pt_t *ptt = pdt->pd_base * NBPG + vaddr->pt_offset * sizeof(pt_t);
 
 	printbs();
 	printdirs();
@@ -126,25 +112,61 @@ void proc1_test3(char *msg, int lck) {
 	return;
 }
 
+void proc_kill() {
+	get_bs(1, 100);
+	xmmap(6000, 1, 100);
+	int *a = 6000 * NBPG;
+	*(a+1) = 100;
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
+	sleep(3);
+}
+
+void test_kill(char *msg, int lck) {
+	int pid1, pid2;
+	pid1 = vcreate(proc_kill, 2000, 100, 50, "test_kill", 0, NULL);
+	resume(pid1);
+	kprintf("Killing %d\n", pid1);
+	kill(pid1);
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
+	int *a = BACKING_STORE_BASE + 1 * BACKING_STORE_UNIT_SIZE;
+	kprintf("Value in backing store:%d\n", *(a+1));
+}
+
 int main() {
 	int pid1;
 	int pid2;
 
 	// kprintf("\n1: shared memory\n");
-	// pid1 = create(proc1_test1, 2000, 20, "proc1_test1", 0, NULL);
+	// pid1 = create(proc1_test1, 2000, 30, "proc1_test1", 0, NULL);
 	// resume(pid1);
-	// sleep(10);
+	// sleep(3);
 
-	kprintf("\n2: vgetmem/vfreemem\n");
-	pid1 = vcreate(proc1_test2, 2000, 100, 20, "proc1_test2", 0, NULL);
-	kprintf("pid %d has private heap\n", pid1);
-	resume(pid1);
-	sleep(3);
+	// kprintf("\n2: vgetmem/vfreemem\n");
+	// pid1 = vcreate(proc1_test2, 2000, 100, 20, "proc1_test2", 0, NULL);
+	// kprintf("pid %d has private heap\n", pid1);
+	// resume(pid1);
+	// sleep(3);
 
 	// kprintf("\n3: Frame test\n");
 	// pid1 = create(proc1_test3, 2000, 20, "proc1_test3", 0, NULL);
 	// resume(pid1);
 	// sleep(3);
+
+	// kprintf("\n1: test kill\n");
+	// pid1 = create(test_kill, 2000, 30, "test_kill", 0, NULL);
+	// resume(pid1);
+	// kprintf("Killing %d\n", pid1);
+	// sleep(3);
+	// printbs();
+	// printdirs();
+	// printtbls();
+	// printpgs();
 
 	shutdown();
 }

@@ -198,26 +198,22 @@ SYSCALL bsm_unmap(int pid, int vpno)
         return SYSERR;
     }
     bsm = &bsm_tab[store];
-    if (bsm->bs_status == BSM_PRIVATE) {
-        release_bs(store);
-        restore(ps);
-        return OK;
-    } else if (bsm->bs_status == BSM_SHARED) {
+    if (bsm->bs_status != BSM_UNMAPPED) {
         prev = NULL;
         bsvp = bsm->bs_vp;
         while(bsvp->bs_pid != -1) {
-            if (bsvp->bs_pid == pid && vpno == bsvp->bs_vpno) {
+            if (bsvp->bs_pid == pid && vpno >= bsvp->bs_vpno && vpno < bsvp->bs_vpno + bsvp->bs_npages) {
                 int vp = bsvp->bs_vpno;
                 int i;
                 for (i = 0; i < bsvp->bs_npages; i++) {
                     if (lookup_frm(pid, vp, &frmno) == OK) {
-                        free_frm(pid, frmno, store, i);
+                        free_frm(pid, frmno, store, pageth + i);
                     }
                     vp++;
                 }
                 if (prev != NULL) {
                     prev->nextvp = bsvp->nextvp;
-                    freemem((struct mblock*)bsvp, sizeof(bs_vp_t));
+                    freemem((struct mblock *)bsvp, sizeof(bs_vp_t));
                     bsvp = prev->nextvp;
                 } else {
                     bs_vp_t *next = bsvp->nextvp;
@@ -233,12 +229,9 @@ SYSCALL bsm_unmap(int pid, int vpno)
         release_bs(store);
         restore(ps);
         return OK;
-    } else if (bsm->bs_status == BSM_UNMAPPED) {
-        restore(ps);
-        return OK;
     } else {
         restore(ps);
-        return SYSERR;
+        return OK;
     }
 }
 
@@ -249,7 +242,7 @@ void printbs() {
     bs_map_t *bsm;
     for (i = 0; i < NBS; i++) {
         bsm = &bsm_tab[i];
-        if (bsm->bs_status == BSM_PRIVATE || bsm->bs_status == BSM_SHARED) {
+        if (bsm->bs_status != BSM_UNMAPPED) {
             bs_vp_t *bsvp = bsm->bs_vp;
             if (bsm->bs_status == BSM_PRIVATE) {
                 kprintf("BS--private-");

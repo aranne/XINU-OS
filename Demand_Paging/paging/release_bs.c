@@ -17,17 +17,8 @@ SYSCALL release_bs(bsd_t bs_id) {
     free_bsm(bs_id);
     restore(ps);
     return OK;
-  } else if (bsm->bs_status == BSM_SHARED) {
-    if (bsm->bs_vp->bs_pid == -1) {      // no process is mapped to this store.
-      free_bsm(bs_id);
-      restore(ps);
-      return OK;
-    } else {
-      restore(ps);
-      return SYSERR;
-    }
   } else {
-    if (bsm->bs_vp->bs_pid == currpid) {
+    if (bsm->bs_vp->bs_pid == -1) {      // no process is mapped to this store.
       free_bsm(bs_id);
       restore(ps);
       return OK;

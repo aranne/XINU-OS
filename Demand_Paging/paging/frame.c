@@ -117,6 +117,7 @@ SYSCALL clear_frm(int i) {
   return OK;
 }
 
+/* find the frame corresponding to certain virtual page */
 SYSCALL lookup_frm(int pid, int vpno, int* frmno) {
   STATWORD ps;
   disable(ps);

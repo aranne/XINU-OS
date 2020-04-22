@@ -223,7 +223,7 @@ sysinit()
 	write_cr3(pptr->pdbr);
 	/* install page fault ISR */
 	set_evec(IVNPF, pfintr);
-	// enable paging
+	/* enable paging */
 	enable_paging();
 
 	return(OK);

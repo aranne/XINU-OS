@@ -61,24 +61,42 @@ SYSCALL free_frm(int pid, int frmno, int store, int pageth)
     return SYSERR;
   }
   fr_map_t *frm = &frm_tab[frmno];
+  int vpno = frm->fr_vpno;
+  unsigned long addr = vpno * NBPG;
+  virt_addr_t *vaddr;
+  vaddr->pd_offset = (addr >> 22) & 0x3FF;
+  vaddr->pt_offset = (addr >> 12) & 0x3FF;
+  vaddr->pg_offset = addr & 0xFFF;
+
+  pd_t *pdt = proctab[pid].pdbr + vaddr->pd_offset * sizeof(pd_t);
+  pt_t *ptt = pdt->pd_base * NBPG + vaddr->pt_offset * sizeof(pt_t);
+
   if (frm->fr_status == FRM_MAPPED) {
     if (frm->fr_type == FR_PAGE) {
-      if (frm->fr_dirty == 1) {
+      if (ptt->pt_dirty == 1) {
         write_bs(getaddr_frm(frmno), store, pageth);
-        clear_frm(frmno);
-        restore(ps);
-        return OK;
       }
+      ptt->pt_pres = 0;
+      if (currpid == pid) {
+        // invlpg(addr);
+      }
+      int tblfrmno = pdt->pd_base - FRAME0;
+      fr_map_t *tblfrm = &frm_tab[tblfrmno];
+      tblfrm->fr_refcnt--;
+      if (tblfrm->fr_refcnt == 0 && tblfrmno > 4) { // don't free global tables.
+        pdt->pd_pres = 0;
+        clear_frm(tblfrmno);
+      }
+      clear_frm(frmno);
+      restore(ps);
+      return OK;
     } else if (frm->fr_type == FR_DIR && frm->fr_pid == pid) {
       clear_frm(frmno);
       restore(ps);
       return OK;
-    } else if (frm->fr_type == FR_TBL) {
-      // don't free global page tables
-      if (frm->fr_refcnt == 0 && frmno < 1 && frmno > 4) {
-        restore(ps);
-        return OK;
-      }
+    } else if (frm->fr_type == FR_TBL) { // page table is freed automatically.
+      restore(ps);
+      return SYSERR;
     }
   }
   restore(ps);

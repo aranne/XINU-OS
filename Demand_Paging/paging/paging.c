@@ -110,6 +110,7 @@ SYSCALL create_pt(int pid, int frmno) {
 
     frm->fr_status = FRM_MAPPED;
     frm->fr_type = FR_TBL;
+    frm->fr_pid = pid;
     frm->fr_refcnt = 0;
 
     int i;

@@ -243,3 +243,25 @@ SYSCALL bsm_unmap(int pid, int vpno)
 }
 
 
+
+void printbs() {
+    int i;
+    bs_map_t *bsm;
+    for (i = 0; i < NBS; i++) {
+        bsm = &bsm_tab[i];
+        if (bsm->bs_status == BSM_PRIVATE || bsm->bs_status == BSM_SHARED) {
+            bs_vp_t *bsvp = bsm->bs_vp;
+            if (bsm->bs_status == BSM_PRIVATE) {
+                kprintf("BS--private-");
+            } else {
+                kprintf("BS--shared-");
+            }
+            kprintf("store:%d, size:%d, ", i, bsm->size);
+            while (bsvp->bs_pid != -1) {
+                kprintf("id:%d, vp:%d, npages:%d", bsvp->bs_pid, bsvp->bs_vpno, bsvp->bs_npages);
+                bsvp = bsvp->nextvp;
+            }
+            kprintf("\n");
+        }
+    }
+}

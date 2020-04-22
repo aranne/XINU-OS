@@ -62,15 +62,50 @@ void proc1_test1(char *msg, int lck) {
 
 void proc1_test2(char *msg, int lck) {
 	int *x;
-
 	kprintf("ready to allocate heap space\n");
 	x = vgetmem(1024);
-	kprintf("heap allocated at %x\n", x);
-	*x = 100;
-	*(x + 1) = 200;
+	kprintf("heap allocated at 0x%x\n", x);
+	*x = 150;
+	*(x + 10) = 200;
 
-	kprintf("heap variable: %d %d\n", *x, *(x + 1));
+	int frmno;
+	unsigned long addr = x;
+	virt_addr_t *vaddr;
+	vaddr->pd_offset = (addr >> 22) & 0x3FF;
+	vaddr->pt_offset = (addr >> 12) & 0x3FF;
+	vaddr->pg_offset = addr & 0xFFF;
+
+	pd_t *pdt = proctab[currpid].pdbr + vaddr->pd_offset * sizeof(pd_t);
+  	pt_t *ptt = pdt->pd_base * NBPG + vaddr->pt_offset * sizeof(pt_t);
+
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
+
+	kprintf("vmemlen:%d\n", proctab[currpid].vmemlist->mnext->mlen);
+
+	kprintf("heap variable: %d %d\n", *x, *(x + 10));
+
+	int *a = getaddr_frm(8);
+	kprintf("frm value:%d\n", *(a+10));
+	int *s = BACKING_STORE_BASE;
+	kprintf("store value:%d\n", *(s+10));
+
 	vfreemem(x, 1024);
+
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
+	
+	kprintf("vmemlen:%d\n", proctab[currpid].vmemlist->mnext->mlen);
+
+	kprintf("heap variable: %d %d\n", *x, *(x + 10));
+	
+	a = getaddr_frm(8);
+	kprintf("frm value:%d\n", *(a+10));
+	kprintf("store value:%d\n", *(s+10));
 }
 
 void proc1_test3(char *msg, int lck) {
@@ -95,21 +130,21 @@ int main() {
 	int pid1;
 	int pid2;
 
-	kprintf("\n1: shared memory\n");
-	pid1 = create(proc1_test1, 2000, 20, "proc1_test1", 0, NULL);
-	resume(pid1);
-	sleep(10);
-
-	// kprintf("\n2: vgetmem/vfreemem\n");
-	// pid1 = vcreate(proc1_test2, 2000, 100, 20, "proc1_test2", 0, NULL);
-	// kprintf("pid %d has private heap\n", pid1);
+	// kprintf("\n1: shared memory\n");
+	// pid1 = create(proc1_test1, 2000, 20, "proc1_test1", 0, NULL);
 	// resume(pid1);
-	// sleep(3);
+	// sleep(10);
+
+	kprintf("\n2: vgetmem/vfreemem\n");
+	pid1 = vcreate(proc1_test2, 2000, 100, 20, "proc1_test2", 0, NULL);
+	kprintf("pid %d has private heap\n", pid1);
+	resume(pid1);
+	sleep(3);
 
 	// kprintf("\n3: Frame test\n");
 	// pid1 = create(proc1_test3, 2000, 20, "proc1_test3", 0, NULL);
 	// resume(pid1);
 	// sleep(3);
 
-        shutdown();
+	shutdown();
 }

@@ -22,7 +22,8 @@ SYSCALL pfint()
 
   int store, pageth;
   if (bsm_lookup(currpid, vp, &store, &pageth) == SYSERR) {
-    kprintf("%x is not a valid virtual address\n", addr);
+    kprintf("0x%x is not a valid virtual address\n", addr);
+    kprintf("currpid:%d, vp:%d\n", currpid, vp);
     kill(currpid);
     restore(ps);
     return SYSERR;
@@ -33,7 +34,7 @@ SYSCALL pfint()
   vaddr->pt_offset = (addr >> 12) & 0x3FF;
   vaddr->pg_offset = addr & 0xFFF;
 
-  pd_t *pdt = pdbr + vaddr->pd_offset * 4;
+  pd_t *pdt = pdbr + vaddr->pd_offset * sizeof(pd_t);
   pt_t *ptt;
   int tblfrmno;
   if (pdt->pd_pres == 0) { // if page table doesn't exist
@@ -54,7 +55,7 @@ SYSCALL pfint()
   fr_map_t *tblfrm = &frm_tab[tblfrmno];
 
 
-  ptt = pdt->pd_base * NBPG + vaddr->pt_offset * 4;
+  ptt = pdt->pd_base * NBPG + vaddr->pt_offset * sizeof(pt_t);
   int pgfrmno;
   if (ptt->pt_pres == 0) { // if page doesn't exist
     kprintf("page doesn't exist\n");

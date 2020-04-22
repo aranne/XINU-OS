@@ -100,6 +100,11 @@ SYSCALL create_pd(int pid);
 SYSCALL set_globe_ptbls(void);
 SYSCALL create_pt(int pid, int frame);
 
+void printtbls(void);
+void printdirs(void);
+void printpgs(void);
+void printbs(void);
+
 #define IVNPF  14   /* page fault interrupt vector number */ 
 
 #define NBPG		4096	/* number of bytes per page	*/
@@ -116,6 +121,7 @@ SYSCALL create_pt(int pid, int frame);
 /* for create() or vcreate() process */
 #define HASVIRTUALHEAP 1
 #define NOVIRTUALHEAP  0
+#define VHSNO         4096 /* virtual heap starting page number */
 
 #define BSM_UNMAPPED	0
 #define BSM_SHARED	  1

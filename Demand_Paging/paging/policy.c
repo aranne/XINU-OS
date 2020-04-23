@@ -38,6 +38,8 @@ SYSCALL grpolicy()
 {
   return page_replace_policy;
 }
+
+
 void setrpdebug() {
   rpdebug = TRUE;
 }

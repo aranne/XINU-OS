@@ -33,10 +33,13 @@ frm_list create_frmlist(void) {
 }
 
 SYSCALL add_frmlist(int frmno) {
+    STATWORD ps;
+    disable(ps);
     node* sen = frmlist.sentinel;
     node *p = sen->next;
     while (p != sen) {
         if (p->frmno == frmno) {
+            restore(ps);
             return OK;
         }
         p = p->next;
@@ -45,10 +48,14 @@ SYSCALL add_frmlist(int frmno) {
     sen->next->prev = n;
     sen->next = n;
     frmlist.size++;
+    restore(ps);
     return OK;
 }
 
 SYSCALL remove_frmlist(int frmno) {
+    STATWORD ps;
+    disable(ps);
+
     node* sen = frmlist.sentinel;
     node* q = sen;
     node* p = sen->next;
@@ -56,14 +63,16 @@ SYSCALL remove_frmlist(int frmno) {
         if (p->frmno == frmno) {
             q->next = p->next;
             free_node(p);
-            break;
+            frmlist.size--;
+            restore(ps);
+            return OK;
         } else {
             q = p;
             p = p->next;
         }
     }
-    frmlist.size--;
-    return OK;
+    restore(ps);
+    return SYSERR;
 }
 
 void print_frmlist(void) {

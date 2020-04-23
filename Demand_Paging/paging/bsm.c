@@ -97,7 +97,7 @@ SYSCALL bsm_lookup(int pid, int vpno, int* store, int* pageth)
     STATWORD ps;
     disable(ps);
 
-    if (isbadpid(pid) || vpno < 0) {
+    if (isbadpid(pid) || vpno < VHSNO) {
         restore(ps);
         return SYSERR;
     }
@@ -132,7 +132,7 @@ SYSCALL bsm_map(int pid, int vpno, int source, int npages, int flag)
     STATWORD ps;
     disable(ps);
 
-    if (isbadbs(source) || isbadpid(pid) || vpno < 0 || npages < 0) {
+    if (isbadbs(source) || isbadpid(pid) || vpno < VHSNO || npages < 0) {
         restore(ps);
         return SYSERR;
     }
@@ -184,7 +184,7 @@ SYSCALL bsm_unmap(int pid, int vpno)
     STATWORD ps;
     disable(ps);
 
-    if (isbadpid(pid) || vpno < 0) {
+    if (isbadpid(pid) || vpno < VHSNO) {
         restore(ps);
         return SYSERR;
     }

@@ -20,6 +20,8 @@ A lock can be acquired for read or write operations.
 A lock acquired for reading can be shared by other readers, but a lock acquired for writing must be exclusive.
 A priority inheritance mechanism is used to prevent the priority inversion problem when using locks.
 
+* Lock operations
+* Priority inheritance
 
 ### 4. Demand Paging
 

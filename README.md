@@ -8,3 +8,4 @@ Xinu is a small, elegant operating system that supports dynamic process creation
 1. Getting Acquainted with XINU
 2. Process Scheduling
 3. Reader/Writer Lock with Priority Inheritance
+4. Demand Paging

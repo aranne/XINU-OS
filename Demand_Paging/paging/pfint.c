@@ -38,7 +38,7 @@ SYSCALL pfint()
   pt_t *ptt;
   int tblfrmno;
   if (pdt->pd_pres == 0) { // if page table doesn't exist
-    kprintf("Page table doesn't exist\n");
+    // kprintf("Page table doesn't exist\n");
     if (get_frm(&tblfrmno) == SYSERR) {
       restore(ps);
       return SYSERR;
@@ -58,7 +58,7 @@ SYSCALL pfint()
   ptt = pdt->pd_base * NBPG + vaddr->pt_offset * sizeof(pt_t);
   int pgfrmno;
   if (ptt->pt_pres == 0) { // if page doesn't exist
-    kprintf("page doesn't exist\n");
+    // kprintf("page doesn't exist\n");
     if (get_frm(&pgfrmno) == SYSERR) {
       restore(ps);
       return SYSERR;

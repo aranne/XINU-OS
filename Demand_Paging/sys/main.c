@@ -292,6 +292,38 @@ void test_lfu(char *msg) {
 	printpgs();
 }
 
+void proc1() {
+	char *x;
+	char temp;
+	get_bs(4, 100);
+	xmmap(7000, 4, 50);
+	x = 7000 * NBPG;
+	*x = 'Y';
+	temp = *x;
+	kprintf("Read from frame:%c\n", temp);
+	xmunmap(7000);
+	sleep(3);
+}
+
+void proc2() {
+	char *x;
+	char temp;
+	xmmap(6000, 4, 80);
+	x = 6000 * NBPG;
+	temp = *x;
+	kprintf("Read from backing store:%c\n", temp);
+}
+
+void test_read_write_bs() {
+	int pid1;
+	int pid2;
+	pid1 = vcreate(proc1, 2000, 100, 30, "proc1", 0, NULL);
+	pid2 = vcreate(proc2, 2000, 100, 30, "proc2", 0, NULL);
+	resume(pid1);
+	sleep(2);
+	resume(pid2);
+}
+
 int main() {
 	int pid1;
 	int pid2;
@@ -327,10 +359,10 @@ int main() {
 	// resume(pid1);
 	// sleep(3);
 
-	kprintf("\n6: test LFU\n");
-	pid1 = vcreate(test_lfu, 2000, 100, 30, "test_lfu", 0, NULL);
-	resume(pid1);
-	sleep(3);
+	// kprintf("\n6: test LFU\n");
+	// pid1 = vcreate(test_lfu, 2000, 100, 30, "test_lfu", 0, NULL);
+	// resume(pid1);
+	// sleep(3);
 
 	// kprintf("\n7: test frame lists\n");
 	// pid1 = create(test_frmlist, 2000, 30, "test_frmlist", 0, NULL);
@@ -341,6 +373,11 @@ int main() {
 	// pid1 = vcreate(test_sc, 2000, 100, 30, "test_sc", 0, NULL);
 	// resume(pid1);
 	// sleep(3);
+
+	kprintf("\n9: test read write with backing store\n");
+	pid1 = create(test_read_write_bs, 2000, 100, 20, "test_rw_bs", 0, NULL);
+	resume(pid1);
+	sleep(5);
 
 	shutdown();
 }

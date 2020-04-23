@@ -8,7 +8,7 @@ void printtbls() {
     for (i = 0; i < NFRAMES; i++) {
         frm = &frm_tab[i];
         if (frm->fr_status == FRM_MAPPED && frm->fr_type == FR_TBL) {
-            kprintf("TBL--id:%d, refcnt:%d, frm:%d\n", frm->fr_pid, frm->fr_refcnt, i);
+            kprintf("TBL--id:%d, pgcnt:%d, frm:%d, refcnt:%d\n", frm->fr_pid, frm->fr_pgcnt, i, frm->fr_refcnt);
         }
     }
 }
@@ -19,7 +19,7 @@ void printdirs() {
     for (i = 0; i < NFRAMES; i++) {
         frm = &frm_tab[i];
         if (frm->fr_status == FRM_MAPPED && frm->fr_type == FR_DIR) {
-            kprintf("DIR--id:%d, frm:%d\n", frm->fr_pid, i);
+            kprintf("DIR--id:%d, frm:%d, refcnt:%d\n", frm->fr_pid, i, frm->fr_refcnt);
         }
     }
 }
@@ -30,7 +30,7 @@ void printpgs() {
     for (i = 0; i < NFRAMES; i++) {
         frm = &frm_tab[i];
         if (frm->fr_status == FRM_MAPPED && frm->fr_type == FR_PAGE) {
-            kprintf("PG--id:%d, vp:%d, refcnt:%d, frm:%d\n", frm->fr_pid, frm->fr_vpno, frm->fr_refcnt, i);
+            kprintf("PG--id:%d, vp:%d, frm:%d, refcnt:%d\n", frm->fr_pid, frm->fr_vpno, i, frm->fr_refcnt);
         }
     }
 }

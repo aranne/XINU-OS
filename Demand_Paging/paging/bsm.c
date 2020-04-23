@@ -28,7 +28,7 @@ SYSCALL init_bsm()
         bsvp->nextvp = (struct bv_t *)NULL;
         bsm->bs_status = BSM_UNMAPPED;
         bsm->bs_vp = bsvp;
-        bsm->size = 0;
+        bsm->bs_size = 0;
         bsm->bs_sem = 0;
     }
 
@@ -81,7 +81,7 @@ SYSCALL free_bsm(int i)
     }
     bsm->bs_status = BSM_UNMAPPED;
     bsm->bs_vp = bsvp;
-    bsm->size = 0;
+    bsm->bs_size = 0;
     bsm->bs_sem = 0;
 
     restore(ps);
@@ -155,7 +155,6 @@ SYSCALL bsm_map(int pid, int vpno, int source, int npages, int flag)
         bsvp->bs_npages = npages;
         bsvp->nextvp = bsm->bs_vp;
         bsm->bs_vp = bsvp;
-        bsm->size = npages;
         restore(ps);
         return OK;
     } else if (bsm->bs_status == BSM_SHARED) {
@@ -249,9 +248,9 @@ void printbs() {
             } else {
                 kprintf("BS--shared-");
             }
-            kprintf("store:%d, size:%d, ", i, bsm->size);
+            kprintf("store:%d, size:%d, ", i, bsm->bs_size);
             while (bsvp->bs_pid != -1) {
-                kprintf("id:%d, vp:%d, npages:%d", bsvp->bs_pid, bsvp->bs_vpno, bsvp->bs_npages);
+                kprintf("id:%d, vp:%d, npages:%d |", bsvp->bs_pid, bsvp->bs_vpno, bsvp->bs_npages);
                 bsvp = bsvp->nextvp;
             }
             kprintf("\n");

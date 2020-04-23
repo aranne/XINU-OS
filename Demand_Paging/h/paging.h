@@ -52,7 +52,7 @@ typedef struct bv_t{
 typedef struct{
   int bs_status;			/* SHARED or PRIVATE or UNMAPPED		*/
   bs_vp_t *bs_vp;      /* a pair of bs and virtual page */
-  int size;            /* number of pages in a backing store */
+  int bs_size;            /* number of pages in a backing store */
   int bs_sem;				  /* semaphore mechanism ?	*/
 } bs_map_t;
 
@@ -60,10 +60,32 @@ typedef struct{
   int fr_status;			/* MAPPED or UNMAPPED		*/
   int fr_pid;				/* process id using this frame: for FR_DIR & FR_PAGE */
   int fr_vpno;				/* corresponding virtual page no: for FR_PAGE */
-  int fr_refcnt;			/* reference count: for FR_TBL */
+  int fr_refcnt;			/* lifetime reference count: for LFU policy */
+  int fr_pgcnt;       /* page count in a page table: for FR_TBL */
   int fr_type;				/* FR_DIR, FR_TBL, FR_PAGE	*/
   int fr_dirty;       /* 1--dirty, 0--not dirty: for FR_PAGE */
 }fr_map_t;
+
+typedef struct _node {
+    int frmno;
+    struct _node *next;
+    struct _node *prev;
+} node;
+
+
+typedef struct {
+    node *sentinel;
+    int size;
+} frm_list;
+
+extern frm_list frmlist;
+node* new_node(node *prev, int frmno, node *next); 
+void free_node(node *n);
+frm_list create_frmlist(void);
+SYSCALL add_frmlist(int frmno);
+SYSCALL remove_frmlist(int frmno);
+void print_frmlist(void);
+SYSCALL init_frmlist(void);
 
 extern bs_map_t bsm_tab[];
 extern fr_map_t frm_tab[];
@@ -90,6 +112,7 @@ SYSCALL bsm_unmap(int pid, int vpno);
 /* given calls for dealing with frame mapping */
 SYSCALL init_frm();
 SYSCALL get_frm(int* avail);
+SYSCALL evict_frm(int *avail);
 SYSCALL free_frm(int pid, int frmno, int store, int pageth);
 SYSCALL lookup_frm(int pid, int vpno, int* frmno);
 SYSCALL clear_frm(int i);
@@ -99,6 +122,11 @@ char* getaddr_frm(int frmno);
 SYSCALL create_pd(int pid);
 SYSCALL set_globe_ptbls(void);
 SYSCALL create_pt(int pid, int frame);
+
+/* given calls for replacement policy */
+SYSCALL srpolicy(int policy);
+SYSCALL grpolicy(void);
+extern int rpdebug;                 /* debug mode */
 
 void printtbls(void);
 void printdirs(void);
@@ -135,7 +163,7 @@ void printbs(void);
 #define FR_DIR		2
 
 #define SC 3
-#define FIFO 4
+#define LFU 4
 
 #define BACKING_STORE_BASE	0x00800000
 #define BACKING_STORE_UNIT_SIZE 0x00080000

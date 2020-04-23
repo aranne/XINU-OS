@@ -22,7 +22,7 @@ SYSCALL pfint()
 
   int store, pageth;
   if (bsm_lookup(currpid, vp, &store, &pageth) == SYSERR) {
-    kprintf("0x%x is not a valid virtual address\n", addr);
+    kprintf("0x%x is not a valid virtual address, ", addr);
     kprintf("currpid:%d, vp:%d\n", currpid, vp);
     kill(currpid);
     restore(ps);
@@ -63,17 +63,19 @@ SYSCALL pfint()
       restore(ps);
       return SYSERR;
     }
+    add_frmlist(pgfrmno);
+    // print_frmlist();
     fr_map_t *pgfrm = &frm_tab[pgfrmno];
     pgfrm->fr_status = FRM_MAPPED;
     pgfrm->fr_type = FR_PAGE;
     pgfrm->fr_dirty = 0;
     pgfrm->fr_vpno = vp;
     pgfrm->fr_pid = currpid;
-    pgfrm->fr_refcnt = 1;  // allocated with 1 reference count.
+    pgfrm->fr_refcnt++;  // increase lifetime counter when allocated 
 
     ptt->pt_pres = 1;     /* mark page as present */
     ptt->pt_base = FRAME0 + pgfrmno;
-    tblfrm->fr_refcnt++; /* one more page is marked present */
+    tblfrm->fr_pgcnt++; /* one more page is marked present */
 
     read_bs(getaddr_frm(pgfrmno), store, pageth);
   }

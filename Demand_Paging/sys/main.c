@@ -92,6 +92,11 @@ void proc1_test2(char *msg, int lck) {
 	a = getaddr_frm(8);
 	kprintf("frm value:%d\n", *(a+10));
 	kprintf("store value:%d\n", *(s+10));
+
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
 }
 
 void proc1_test3(char *msg, int lck) {
@@ -157,6 +162,112 @@ void test_invlpg(char *msg, int addr) {
 	kprintf("Value: %d\n", *a);
 }
 
+void virtual_access(char *msg, int addr) {
+	xmmap(6000, 1, 50);
+	int *a = 6000 * NBPG;
+	*a = 2000;
+	sleep(10);
+}
+
+void test_lfu(char *msg, int addr) {
+	srpolicy(LFU);
+	int i;
+	fr_map_t *frm;
+	
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
+	get_bs(1, 100);
+	xmmap(5000, 1, 50);
+	int *a = 5000 * NBPG;
+	*(a+1) = 1000;
+	int *s = BACKING_STORE_BASE + 1 * BACKING_STORE_UNIT_SIZE;
+	kprintf("Value: %d\n", *(a+1));
+	kprintf("Store value: %d\n", *(s+1));
+
+	a = (unsigned) a + NBPG;
+	*a = 1000;
+	a = (unsigned) a + NBPG;
+	*a = 1000;
+
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
+
+	xmunmap(5000);
+	kprintf("Finish unmapping\n");
+
+	get_bs(1, 100);
+	xmmap(5000, 1, 50);
+
+	int *b =  5000 * NBPG;
+	*b = 1000;
+	b = (unsigned) b + NBPG;
+	*b = 1000;
+
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
+	xmunmap(5000);
+
+	get_bs(1, 100);
+	xmmap(5000, 1, 50);
+
+	b =  5000 * NBPG;
+	*b = 1000;
+	b = (unsigned) b + NBPG;
+	*b = 1000;
+
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
+
+	for (i = 11; i < NFRAMES; i++) {
+		frm = &frm_tab[i];
+		frm->fr_status = 3;
+	}
+
+	a = (unsigned) a + NBPG;
+	printf("%d\n", *a);
+	a = (unsigned) a + NBPG;
+	printf("%d\n", *a);
+	
+	// kprintf("creating process 2\n");
+	// int pid = create(virtual_access, 2000, 30, "vir_acc", 0, NULL);
+	// resume(pid);
+	// sleep(1);
+	printbs();
+	printdirs();
+	printtbls();
+	printpgs();
+	frm_tab[10].fr_refcnt = 5;
+	a = (unsigned) a + NBPG;
+	printf("%d\n", *a);
+	a = (unsigned) a + NBPG;
+	printf("%d\n", *a);
+}
+
+
+void test_frmlist(char *msg, int add) {
+	add_frmlist(8);
+	add_frmlist(8);
+	add_frmlist(9);
+	add_frmlist(12);
+	print_frmlist();
+	remove_frmlist(11);
+	remove_frmlist(8);
+	remove_frmlist(12);
+	print_frmlist();
+	remove_frmlist(9);
+	print_frmlist();
+	add_frmlist(8);
+	print_frmlist();
+}
+
 int main() {
 	int pid1;
 	int pid2;
@@ -187,10 +298,20 @@ int main() {
 	// printtbls();
 	// printpgs();
 
-	kprintf("\n5: test invlpg\n");
-	pid1 = create(test_invlpg, 2000, 30, "test_invlpg", 0, NULL);
+	// kprintf("\n5: test invlpg\n");
+	// pid1 = create(test_invlpg, 2000, 30, "test_invlpg", 0, NULL);
+	// resume(pid1);
+	// sleep(3);
+
+	kprintf("\n6: test LFU\n");
+	pid1 = vcreate(test_lfu, 2000, 100, 30, "test_lfu", 0, NULL);
 	resume(pid1);
 	sleep(3);
+
+	// kprintf("\n7: test frame lists\n");
+	// pid1 = create(test_frmlist, 2000, 30, "test_frmlist", 0, NULL);
+	// resume(pid1);
+	// sleep(3);
 
 	shutdown();
 }

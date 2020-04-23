@@ -5,17 +5,28 @@
 #include <paging.h>
 
 
-extern int page_replace_policy;
+extern int page_replace_policy;   /* replacement policy for paging */
+void setrpdebug(void);
+
 /*-------------------------------------------------------------------------
  * srpolicy - set page replace policy 
  *-------------------------------------------------------------------------
  */
 SYSCALL srpolicy(int policy)
 {
-  /* sanity check ! */
+  STATWORD ps;
+  disable(ps);
 
-  kprintf("To be implemented!\n");
+  if (policy != SC && policy != LFU) {
+    kprintf("Wrong number of replacement policy!\n");
+    restore(ps);
+    return SYSERR;
+  }
 
+  page_replace_policy = policy;
+  setrpdebug();             // ture on debug mode
+
+  restore(ps);
   return OK;
 }
 
@@ -26,4 +37,7 @@ SYSCALL srpolicy(int policy)
 SYSCALL grpolicy()
 {
   return page_replace_policy;
+}
+void setrpdebug() {
+  rpdebug = TRUE;
 }

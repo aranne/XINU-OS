@@ -46,8 +46,9 @@ int	rdyhead,rdytail;	/* head/tail of ready list (q indicies)	*/
 char 	vers[80];
 int	console_dev;		/* the console device			*/
 
-/*  added for the demand paging */
+/*  for the demand paging */
 int page_replace_policy = SC;
+int rpdebug = FALSE;
 
 /************************************************************************/
 /***				NOTE:				      ***/
@@ -215,6 +216,8 @@ sysinit()
 	init_bsm();
 	/* initial frames */
 	init_frm();
+	/* initial frame list */
+	init_frmlist();
 	/* page table for null process */
 	create_pd(NULLPROC);
 	/* global page tables for first 16M memory */

@@ -5,6 +5,8 @@
 #include <paging.h>
 
 fr_map_t frm_tab[NFRAMES];
+SYSCALL get_frm_lfu(int *avail);
+SYSCALL get_frm_sc(int *avail);
 
 /*-------------------------------------------------------------------------
  * init_frm - initialize frm_tab
@@ -21,6 +23,7 @@ SYSCALL init_frm()
     frm->fr_status = FRM_UNMAPPED;
     frm->fr_pid = 0;
     frm->fr_vpno = 0;
+    frm->fr_pgcnt = 0;
     frm->fr_refcnt = 0;
     frm->fr_dirty = 0;
     frm->fr_type = FR_PAGE;
@@ -44,8 +47,127 @@ SYSCALL get_frm(int* avail)
       return OK;
     }
   }
+  if (evict_frm(avail) == SYSERR) {
+    kprintf("Page Replace Fail(policy:%d).\n", grpolicy());
+    restore(ps);
+    return SYSERR;
+  }
+
   restore(ps);
-  return SYSERR;
+  return OK;
+}
+
+/*-------------------------------------------------------------------------
+ * evict_frm - replace a frame according page replacement policy
+ *-------------------------------------------------------------------------
+ */
+SYSCALL evict_frm(int *avail) {
+  STATWORD ps;
+  disable(ps);
+
+  if (grpolicy() == LFU) {
+    if (get_frm_lfu(avail) == SYSERR) {
+      restore(ps);
+      return SYSERR;
+    }
+  } else if (grpolicy() == SC) {
+    if (get_frm_sc(avail) == SYSERR) {
+      restore(ps);
+      return SYSERR;
+    }
+  }
+
+  if (rpdebug) {
+    kprintf("\nReplaced Frame Number: %d\n\n", *avail);
+  }
+
+  // Swap out frame to backing store
+  fr_map_t *frm = &frm_tab[*avail];
+  int pid = frm->fr_pid;
+  int vp = frm->fr_vpno;
+  int store, pageth;
+  if (bsm_lookup(pid, vp, &store, &pageth) == SYSERR) {
+    kprintf("Replacement failed\n");
+    kprintf("Cannot find corresponding BS for frame[%d], ", *avail);
+    kprintf("owning pid: %d, vp: %d\n", pid, vp);
+    kill(pid);
+    restore(ps);
+    return SYSERR;
+  }
+  if (free_frm(pid, *avail, store, pageth) == SYSERR) {
+    restore(ps);
+    return SYSERR;
+  }
+  restore(ps);
+  return OK;
+}
+
+SYSCALL get_frm_lfu(int *avail) {
+  STATWORD ps;
+  disable(ps);
+
+  int minfrmno = -1;
+  int mincnt = MAXINT;
+  fr_map_t *frm;
+  node* sen = frmlist.sentinel;
+  node *p = sen->next;
+  while (p != sen) {
+    frm = &frm_tab[p->frmno];
+    if (frm->fr_status == FRM_MAPPED && frm->fr_type == FR_PAGE) {
+      if (frm->fr_refcnt < mincnt) {
+        mincnt = frm->fr_refcnt;
+        minfrmno = p->frmno;
+      } else if (frm->fr_refcnt == mincnt) {
+        if (frm_tab[minfrmno].fr_vpno < frm->fr_vpno) {
+          minfrmno = p->frmno;
+        }
+      }
+    }
+    p = p->next;
+  }
+  if (minfrmno != -1) {
+    *avail = minfrmno;
+    restore(ps);
+    return OK;
+  } else {
+    restore(ps);
+    return SYSERR;
+  }
+}
+
+SYSCALL get_frm_sc(int *avail) {
+  STATWORD ps;
+  disable(ps);
+
+  fr_map_t *frm;
+  node *sen = frmlist.sentinel;
+  node *p = sen->next;
+  int found = FALSE;
+  while (!found) {
+    frm = &frm_tab[p->frmno];
+    int vp = frm->fr_vpno;
+    int pid = frm->fr_pid;
+    unsigned long addr = vp * NBPG;
+    virt_addr_t *vaddr;
+    vaddr->pd_offset = (addr >> 22) & 0x3FF;
+    vaddr->pt_offset = (addr >> 12) & 0x3FF;
+    vaddr->pg_offset = addr & 0xFFF;
+    pd_t *pdt = proctab[pid].pdbr + vaddr->pd_offset * sizeof(pd_t);
+    pt_t *ptt = pdt->pd_base * NBPG + vaddr->pt_offset * sizeof(pt_t);
+    if (ptt->pt_acc == 1) {
+      ptt->pt_acc = 0;
+    } else {
+      found = TRUE;
+      *avail = p->frmno;
+    }
+  }
+
+  if (!found) {
+    restore(ps);
+    return SYSERR;
+  }
+  restore(ps);
+  return OK;
 }
 
 /*-------------------------------------------------------------------------
@@ -82,11 +204,12 @@ SYSCALL free_frm(int pid, int frmno, int store, int pageth)
       }
       int tblfrmno = pdt->pd_base - FRAME0;
       fr_map_t *tblfrm = &frm_tab[tblfrmno];
-      tblfrm->fr_refcnt--;
-      if (tblfrm->fr_refcnt == 0 && tblfrmno > 4) { // don't free global tables.
+      tblfrm->fr_pgcnt--;
+      if (tblfrm->fr_pgcnt == 0 && tblfrmno > 4) { // don't free global tables.
         pdt->pd_pres = 0;
         clear_frm(tblfrmno);
       }
+      remove_frmlist(frmno);
       clear_frm(frmno);
       restore(ps);
       return OK;
@@ -103,6 +226,7 @@ SYSCALL free_frm(int pid, int frmno, int store, int pageth)
   return SYSERR;
 }
 
+/* DON'T clear fr_refcnt cause it's a lifetime counter */
 SYSCALL clear_frm(int i) {
   STATWORD ps;
   disable(ps);
@@ -110,7 +234,7 @@ SYSCALL clear_frm(int i) {
   frm->fr_status = FRM_UNMAPPED;
   frm->fr_pid = 0;
   frm->fr_vpno = 0;
-  frm->fr_refcnt = 0;
+  frm->fr_pgcnt = 0;
   frm->fr_dirty = 0;
   frm->fr_type = FR_PAGE;
   restore(ps);

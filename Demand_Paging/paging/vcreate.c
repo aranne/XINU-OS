@@ -54,11 +54,10 @@ SYSCALL vcreate(procaddr,ssize,hsize,priority,name,nargs,args)
 		return SYSERR;
 	}
 	pptr->store = store;
-	if (get_bs(pptr->store, pptr->vhpnpages) == SYSERR) {
+	if (bsm_map(pid, pptr->vhpno, pptr->store, pptr->vhpnpages, 1) == SYSERR) {
 		restore(ps);
 		return SYSERR;
 	}
-	bsm_map(pid, pptr->vhpno, pptr->store, pptr->vhpnpages, 1);
 
 	// pptr->vmemlist = (struct mblock *) getmem(sizeof(struct mblock));
 	pptr->vmemlist = (struct mblock *) getmem(sizeof(struct mblock));

@@ -11,9 +11,12 @@ int get_bs(bsd_t bs_id, unsigned int npages) {
     }
     bs_map_t *bsm = &bsm_tab[bs_id];
     if (bsm->bs_status == BSM_UNMAPPED) {             /* UNMAPPED */
-      return npages;
+      if (bsm->bs_size == 0) {
+        bsm->bs_size = npages;
+      }
+      return bsm->bs_size;
     } else if (bsm->bs_status == BSM_SHARED) {        /* SHARED   */                   
-        return bsm->size;
+        return bsm->bs_size;
     } else {                                         /* PRIVATE  */
       return SYSERR;
     }

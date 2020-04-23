@@ -22,6 +22,7 @@ SYSCALL create_pd(int pid) {
     frm->fr_status = FRM_MAPPED;
     frm->fr_pid = pid;
     frm->fr_type = FR_DIR;
+    frm->fr_refcnt++;         // increase lifetime counter when allocated 
     proctab[pid].pdbr = (unsigned long) getaddr_frm(frmno);
 
     int i, n;
@@ -111,7 +112,8 @@ SYSCALL create_pt(int pid, int frmno) {
     frm->fr_status = FRM_MAPPED;
     frm->fr_type = FR_TBL;
     frm->fr_pid = pid;
-    frm->fr_refcnt = 0;
+    frm->fr_pgcnt = 0;
+    frm->fr_refcnt++;        // increase lifetime counter when allocated 
 
     int i;
     pt_t *ptt = (pt_t*) getaddr_frm(frmno);

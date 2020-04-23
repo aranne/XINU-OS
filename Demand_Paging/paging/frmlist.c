@@ -3,9 +3,11 @@
 #include <paging.h>
 
 frm_list frmlist;       /* frmlist of pages for replacement policy */
+node* sc_curr;          /* current node for second chance policy */
 
 SYSCALL init_frmlist(void) {
     frmlist = create_frmlist();
+    sc_curr = frmlist.sentinel;
 }
 
 node* new_node(node *prev, int frmno, node *next) {
@@ -54,7 +56,7 @@ SYSCALL remove_frmlist(int frmno) {
         if (p->frmno == frmno) {
             q->next = p->next;
             free_node(p);
-            p = q->next;
+            break;
         } else {
             q = p;
             p = p->next;

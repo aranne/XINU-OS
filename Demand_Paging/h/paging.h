@@ -79,6 +79,7 @@ typedef struct {
 } frm_list;
 
 extern frm_list frmlist;
+extern node* sc_curr;
 node* new_node(node *prev, int frmno, node *next); 
 void free_node(node *n);
 frm_list create_frmlist(void);

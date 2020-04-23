@@ -169,89 +169,6 @@ void virtual_access(char *msg, int addr) {
 	sleep(10);
 }
 
-void test_lfu(char *msg, int addr) {
-	srpolicy(LFU);
-	int i;
-	fr_map_t *frm;
-	
-	printbs();
-	printdirs();
-	printtbls();
-	printpgs();
-	get_bs(1, 100);
-	xmmap(5000, 1, 50);
-	int *a = 5000 * NBPG;
-	*(a+1) = 1000;
-	int *s = BACKING_STORE_BASE + 1 * BACKING_STORE_UNIT_SIZE;
-	kprintf("Value: %d\n", *(a+1));
-	kprintf("Store value: %d\n", *(s+1));
-
-	a = (unsigned) a + NBPG;
-	*a = 1000;
-	a = (unsigned) a + NBPG;
-	*a = 1000;
-
-	printbs();
-	printdirs();
-	printtbls();
-	printpgs();
-
-	xmunmap(5000);
-	kprintf("Finish unmapping\n");
-
-	get_bs(1, 100);
-	xmmap(5000, 1, 50);
-
-	int *b =  5000 * NBPG;
-	*b = 1000;
-	b = (unsigned) b + NBPG;
-	*b = 1000;
-
-	printbs();
-	printdirs();
-	printtbls();
-	printpgs();
-	xmunmap(5000);
-
-	get_bs(1, 100);
-	xmmap(5000, 1, 50);
-
-	b =  5000 * NBPG;
-	*b = 1000;
-	b = (unsigned) b + NBPG;
-	*b = 1000;
-
-	printbs();
-	printdirs();
-	printtbls();
-	printpgs();
-
-	for (i = 11; i < NFRAMES; i++) {
-		frm = &frm_tab[i];
-		frm->fr_status = 3;
-	}
-
-	a = (unsigned) a + NBPG;
-	printf("%d\n", *a);
-	a = (unsigned) a + NBPG;
-	printf("%d\n", *a);
-	
-	// kprintf("creating process 2\n");
-	// int pid = create(virtual_access, 2000, 30, "vir_acc", 0, NULL);
-	// resume(pid);
-	// sleep(1);
-	printbs();
-	printdirs();
-	printtbls();
-	printpgs();
-	frm_tab[10].fr_refcnt = 5;
-	a = (unsigned) a + NBPG;
-	printf("%d\n", *a);
-	a = (unsigned) a + NBPG;
-	printf("%d\n", *a);
-}
-
-
 void test_frmlist(char *msg, int add) {
 	add_frmlist(8);
 	add_frmlist(8);
@@ -266,6 +183,113 @@ void test_frmlist(char *msg, int add) {
 	print_frmlist();
 	add_frmlist(8);
 	print_frmlist();
+}
+
+void test_sc(char *msg) {
+	int i;
+	fr_map_t *frm;
+
+	srpolicy(SC);
+
+	get_bs(1, 100);
+	xmmap(5000, 1, 50);
+	int *a = 5000 * NBPG;
+	*a = 1;
+	int *b = 5001 * NBPG;
+	*b = 2;
+	int *c = 5002 * NBPG;
+	*c = 3;
+	printpgs();
+
+	/* replacement happens */
+	for (i = 11; i < NFRAMES; i++) {
+		frm = &frm_tab[i];
+		frm->fr_status = 3;
+	}
+
+	print_frmlist();
+	int *d = 5003 * NBPG;
+	*d = 4;
+
+	kprintf("value in vp 5002 should be 3\n");
+	int store, pageth;
+	bsm_lookup(currpid, 5002, &store, &pageth);
+	int *s = BACKING_STORE_BASE + store * BACKING_STORE_UNIT_SIZE + pageth * NBPG;
+	kprintf("value: %d\n", *s);
+
+	print_frmlist();
+	int *e = 5004 * NBPG;
+	*e = 5;
+
+	*b++;
+
+	print_frmlist();
+	int *f = 5005 * NBPG;
+	*f = 6;
+
+	print_frmlist();
+	int *g = 5006 * NBPG;
+	*g = 7;
+
+	printpgs();
+}
+
+void test_lfu(char *msg) {
+	int i;
+	fr_map_t *frm;
+
+	srpolicy(LFU);
+
+	get_bs(1, 100);
+	xmmap(5000, 1, 50);
+
+	int *a = 5000 * NBPG;
+	*a = 1;
+	int *b = 5001 * NBPG;
+	*b = 2;
+	int *c = 5002 * NBPG;
+	*c = 3;
+	printpgs();
+
+	frm = &frm_tab[8];
+	int store, pageth;
+	bsm_lookup(currpid, 5000, &store, &pageth);
+	free_frm(currpid, 8, store, pageth);
+
+	*a = 4;
+
+	printpgs();
+
+	/* replacement happens */
+	for (i = 11; i < NFRAMES; i++) {
+		frm = &frm_tab[i];
+		frm->fr_status = 3;
+	}
+	
+	print_frmlist();
+
+	int *d = 5003 * NBPG;
+	*d = 5;
+	
+	print_frmlist();
+	int *e = 5004 * NBPG;
+	*e = 6;
+
+	printpgs();
+
+	print_frmlist();
+	int *f = 5005 * NBPG;
+	*f = 7;
+
+	print_frmlist();
+	int *g = 5006 * NBPG;
+	*g = 8;
+
+	print_frmlist();
+	int *h = 5007 * NBPG;
+	*h = 8;
+
+	printpgs();
 }
 
 int main() {
@@ -310,6 +334,11 @@ int main() {
 
 	// kprintf("\n7: test frame lists\n");
 	// pid1 = create(test_frmlist, 2000, 30, "test_frmlist", 0, NULL);
+	// resume(pid1);
+	// sleep(3);
+
+	// kprintf("\n8: second chance\n");
+	// pid1 = vcreate(test_sc, 2000, 100, 30, "test_sc", 0, NULL);
 	// resume(pid1);
 	// sleep(3);
 

@@ -140,11 +140,12 @@ SYSCALL get_frm_sc(int *avail) {
   disable(ps);
 
   fr_map_t *frm;
-  node *sen = frmlist.sentinel;
-  node *p = sen->next;
   int found = FALSE;
-  while (!found) {
-    frm = &frm_tab[p->frmno];
+  while (!found && frmlist.size != 0) {
+    if (sc_curr->frmno == -1) {
+      sc_curr = sc_curr->next;
+    }
+    frm = &frm_tab[sc_curr->frmno];
     int vp = frm->fr_vpno;
     int pid = frm->fr_pid;
     unsigned long addr = vp * NBPG;
@@ -158,8 +159,9 @@ SYSCALL get_frm_sc(int *avail) {
       ptt->pt_acc = 0;
     } else {
       found = TRUE;
-      *avail = p->frmno;
+      *avail = sc_curr->frmno;
     }
+    sc_curr = sc_curr->next;
   }
 
   if (!found) {
